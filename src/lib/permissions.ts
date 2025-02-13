@@ -6,7 +6,7 @@ export async function hasPermission(userId: string, permission: Permission): Pro
     where: { id: userId },
     include: { role: true }
   });
-  
+
   return user?.role.permissions.includes(permission) ?? false;
 }
 
@@ -15,4 +15,12 @@ export async function requirePermission(user: User, permission: Permission) {
   if (!hasAccess) {
     throw new Error('Forbidden');
   }
+}
+
+export function hasAllPermissions(userId: string, permissions: Permission[]): boolean {
+  return permissions.every(permission => hasPermission(userId, permission));
+}
+
+export function hasAnyPermission(userId: string, permissions: Permission[]): boolean {
+  return permissions.some(permission => hasPermission(userId, permission));
 } 

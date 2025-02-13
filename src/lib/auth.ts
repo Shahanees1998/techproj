@@ -1,29 +1,63 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Permission } from '@prisma/client';
 import { prisma } from './prisma';
-import { hasPermission } from './permissions';
+
+interface AuthResult {
+  id: string;
+  role: string;
+  permissions: Permission[];
+}
 
 export async function getCurrentUser(req: NextRequest) {
   // TODO: Replace with your actual auth logic
   const userId = req.headers.get('x-user-id');
   if (!userId) return null;
-  
+
   return prisma.user.findUnique({
     where: { id: userId },
     include: { role: true }
   });
 }
 
-export async function requirePermission(req: NextRequest, permission: Permission) {
-  const user = await getCurrentUser(req);
-  if (!user) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+export async function requirePermission(
+  req: NextRequest,
+  requiredPermission: Permission
+): Promise<AuthResult | NextResponse> {
+  const userId = req.headers.get('x-user-id');
+  const userRole = req.headers.get('x-user-role');
+
+  if (!userId || !userRole) {
+    return NextResponse.json(
+      { error: 'Unauthorized' },
+      { status: 401 }
+    );
   }
 
-  const hasAccess = await hasPermission(user.id, permission);
-  if (!hasAccess) {
-    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+  // Get user's role and permissions
+  const role = await prisma.role.findUnique({
+    where: { name: userRole },
+    select: { permissions: true }
+  });
+
+  if (!role) {
+    return NextResponse.json(
+      { error: 'Invalid role' },
+      { status: 403 }
+    );
   }
 
-  return user;
+  // Check if user has required permission
+  if (!role.permissions.includes(requiredPermission)) {
+    return NextResponse.json(
+      { error: 'Insufficient permissions' },
+      { status: 403 }
+    );
+  }
+
+  return {
+    id: userId,
+    role: userRole,
+    permissions: role.permissions
+  };
 }
+
