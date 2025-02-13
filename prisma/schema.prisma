@@ -10,8 +10,187 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  ADMIN
+  TECHNICIAN
+  CLIENT_CP // Client Contact Person
+  CLIENT_IP // Client Invoice Person
+}
+
+enum ProjectStatus {
+  ACTIVE
+  COMPLETED
+  ON_HOLD
+}
+
+enum JobStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum InvoiceStatus {
+  DRAFT
+  SENT
+  PAID
+}
+
+enum PayrollStatus {
+  PENDING
+  PROCESSED
+  PAID
+}
+
+enum LogType {
+  CREATE
+  UPDATE
+  DELETE
+  LOGIN
+  LOGOUT
+  ASSIGN
+  UNASSIGN
+  STATUS_CHANGE
+  INVOICE_GENERATE
+  PAYROLL_PROCESS
+}
+
+enum LogEntity {
+  USER
+  CLIENT
+  PROJECT
+  JOB
+  SCHEDULE
+  INVOICE
+  PAYROLL
+}
+
 model User {
-  id    String  @id @default(auto()) @map("_id") @db.ObjectId
-  email String  @unique
-  name  String?
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  email     String   @unique
+  name      String
+  role      Role
+  clientId  String?  @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Virtual Relations
+  client         Client?       @relation(fields: [clientId], references: [id])
+  projects       Project[]     @relation(fields: [projectIds], references: [id])
+  projectIds     String[]      @db.ObjectId
+  assignedJobs   Job[]         @relation("AssignedTechnicians", fields: [assignedJobIds], references: [id])
+  assignedJobIds String[]      @db.ObjectId
+  leadJobs       Job[]         @relation("LeadTechnicians", fields: [leadJobIds], references: [id])
+  leadJobIds     String[]      @db.ObjectId
+  activityLogs   ActivityLog[] // Added relation to activity logs
+  payrolls       Payroll[] // Added missing relation
+}
+
+model Client {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  address   String
+  phone     String
+  users     User[] // CP and IP users
+  projects  Project[]
+  invoices  Invoice[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Project {
+  id          String        @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String
+  status      ProjectStatus
+  startDate   DateTime
+  endDate     DateTime?
+  clientId    String        @db.ObjectId
+  teamIds     String[]      @db.ObjectId
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  // Virtual Relations
+  client Client @relation(fields: [clientId], references: [id])
+  team   User[] @relation(fields: [teamIds], references: [id])
+  jobs   Job[]
+}
+
+model Job {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  title         String
+  description   String
+  status        JobStatus
+  startDate     DateTime
+  endDate       DateTime?
+  projectId     String    @db.ObjectId
+  leadTechIds   String[]  @db.ObjectId // Changed to array for multiple lead technicians
+  technicianIds String[]  @db.ObjectId
+  scheduleIds   String[]  @db.ObjectId
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Virtual Relations
+  project         Project    @relation(fields: [projectId], references: [id])
+  leadTechnicians User[]     @relation("LeadTechnicians", fields: [leadTechIds], references: [id]) // Updated relation
+  technicians     User[]     @relation("AssignedTechnicians", fields: [technicianIds], references: [id])
+  schedules       Schedule[] @relation(fields: [scheduleIds], references: [id])
+  invoices        Invoice[]
+}
+
+model Schedule {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  date        DateTime
+  jobIds      String[] @db.ObjectId
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Virtual Relations
+  jobs Job[] @relation(fields: [jobIds], references: [id])
+}
+
+model Invoice {
+  id        String        @id @default(auto()) @map("_id") @db.ObjectId
+  number    String        @unique
+  amount    Float
+  status    InvoiceStatus
+  issueDate DateTime
+  dueDate   DateTime
+  jobId     String        @db.ObjectId
+  clientId  String        @db.ObjectId // Added client relation
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  // Virtual Relations
+  job    Job    @relation(fields: [jobId], references: [id])
+  client Client @relation(fields: [clientId], references: [id]) // Added client relation
+}
+
+model Payroll {
+  id           String        @id @default(auto()) @map("_id") @db.ObjectId
+  startDate    DateTime
+  endDate      DateTime
+  amount       Float
+  status       PayrollStatus
+  technicianId String        @db.ObjectId
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  // Virtual Relations
+  technician User @relation(fields: [technicianId], references: [id])
+}
+
+model ActivityLog {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  type        LogType
+  entity      LogEntity
+  entityId    String    @db.ObjectId
+  userId      String    @db.ObjectId
+  description String
+  metadata    Json? // For storing additional context
+  createdAt   DateTime  @default(now())
+
+  // Virtual Relations
+  user User @relation(fields: [userId], references: [id])
 }
