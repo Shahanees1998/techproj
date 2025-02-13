@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import React from 'react';
+// import "../../../prisma/seed"
 
 interface SimpleLayoutProps {
     children: React.ReactNode;

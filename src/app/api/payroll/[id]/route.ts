@@ -5,13 +5,13 @@ import { requirePermission } from '@/lib/auth';
 import { payrollSchema } from '@/lib/validation';
 import { LogType, LogEntity, Permission } from '@prisma/client';
 
-export const GET = createApiHandler(async (req: NextRequest) => {
-  const params = Object.fromEntries(req.nextUrl.searchParams.entries());
+export const GET = createApiHandler(async (req: NextRequest, { params }) => {
+  const pathParams = await params as { id: string };
   const authResult = await requirePermission(req, Permission.MANAGE_PAYROLL);
   if (authResult instanceof NextResponse) return authResult;
 
   const payroll = await prisma.payroll.findUnique({
-    where: { id: params.id },
+    where: { id: pathParams.id },
     include: {
       technician: true
     }
@@ -34,8 +34,8 @@ export const GET = createApiHandler(async (req: NextRequest) => {
   return NextResponse.json(payroll);
 });
 
-export const PUT = createApiHandler(async (req: NextRequest) => {
-  const params = Object.fromEntries(req.nextUrl.searchParams.entries());
+export const PUT = createApiHandler(async (req: NextRequest, { params }) => {
+  const pathParams = await params as { id: string };
   const authResult = await requirePermission(req, Permission.MANAGE_PAYROLL);
   if (authResult instanceof NextResponse) return authResult;
 
@@ -50,7 +50,7 @@ export const PUT = createApiHandler(async (req: NextRequest) => {
   }
 
   const payroll = await prisma.payroll.update({
-    where: { id: params.id },
+    where: { id: pathParams.id },
     data: validationResult.data,
     include: {
       technician: true
@@ -71,20 +71,20 @@ export const PUT = createApiHandler(async (req: NextRequest) => {
   return NextResponse.json(payroll);
 });
 
-export const DELETE = createApiHandler(async (req: NextRequest) => {
-  const params = Object.fromEntries(req.nextUrl.searchParams.entries());
+export const DELETE = createApiHandler(async (req: NextRequest, { params }) => {
+  const pathParams = await params as { id: string };
   const authResult = await requirePermission(req, Permission.MANAGE_PAYROLL);
   if (authResult instanceof NextResponse) return authResult;
 
   const payroll = await prisma.payroll.delete({
-    where: { id: params.id }
+    where: { id: pathParams.id }
   });
 
   await prisma.activityLog.create({
     data: {
       type: LogType.DELETE,
       entity: LogEntity.PAYROLL,
-      entityId: params.id,
+      entityId: pathParams.id,
       userId: authResult.id,
       description: `Deleted payroll for technician ${payroll.technicianId}`
     }

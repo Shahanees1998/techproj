@@ -5,13 +5,13 @@ import { requirePermission } from '@/lib/auth';
 import { jobSchema } from '@/lib/validation';
 import { LogType, LogEntity, Permission } from '@prisma/client';
 
-export const GET = createApiHandler(async (req: NextRequest) => {
-  const params = Object.fromEntries(req.nextUrl.searchParams.entries());
+export const GET = createApiHandler(async (req: NextRequest, { params }) => {
+  const pathParams = await params as { id: string };
   const authResult = await requirePermission(req, Permission.READ_JOB);
   if (authResult instanceof NextResponse) return authResult;
 
   const job = await prisma.job.findUnique({
-    where: { id: params.id },
+    where: { id: pathParams.id },
     include: {
       project: true,
       leadTechnicians: true,
@@ -38,8 +38,8 @@ export const GET = createApiHandler(async (req: NextRequest) => {
   return NextResponse.json(job);
 });
 
-export const PUT = createApiHandler(async (req: NextRequest) => {
-  const params = Object.fromEntries(req.nextUrl.searchParams.entries());
+export const PUT = createApiHandler(async (req: NextRequest, { params }) => {
+  const pathParams = await params as { id: string };
   const authResult = await requirePermission(req, Permission.UPDATE_JOB);
   if (authResult instanceof NextResponse) return authResult;
 
@@ -54,7 +54,7 @@ export const PUT = createApiHandler(async (req: NextRequest) => {
   }
 
   const job = await prisma.job.update({
-    where: { id: params.id },
+    where: { id: pathParams.id },
     data: validationResult.data,
     include: {
       project: true,
@@ -78,20 +78,20 @@ export const PUT = createApiHandler(async (req: NextRequest) => {
   return NextResponse.json(job);
 });
 
-export const DELETE = createApiHandler(async (req: NextRequest) => {
-  const params = Object.fromEntries(req.nextUrl.searchParams.entries());
+export const DELETE = createApiHandler(async (req: NextRequest, { params }) => {
+  const pathParams = await params as { id: string };
   const authResult = await requirePermission(req, Permission.DELETE_JOB);
   if (authResult instanceof NextResponse) return authResult;
 
   const job = await prisma.job.delete({
-    where: { id: params.id }
+    where: { id: pathParams.id }
   });
 
   await prisma.activityLog.create({
     data: {
       type: LogType.DELETE,
       entity: LogEntity.JOB,
-      entityId: params.id,
+      entityId: pathParams.id,
       userId: authResult.id,
       description: `Deleted job ${job.title}`
     }

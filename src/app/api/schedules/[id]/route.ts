@@ -5,13 +5,13 @@ import { requirePermission } from '@/lib/auth';
 import { scheduleSchema } from '@/lib/validation';
 import { LogType, LogEntity, Permission } from '@prisma/client';
 
-export const GET = createApiHandler(async (req: NextRequest) => {
-  const params = Object.fromEntries(req.nextUrl.searchParams.entries());
+export const GET = createApiHandler(async (req: NextRequest, { params }) => {
+  const pathParams = await params as { id: string };
   const authResult = await requirePermission(req, Permission.MANAGE_SCHEDULES);
   if (authResult instanceof NextResponse) return authResult;
 
   const schedule = await prisma.schedule.findUnique({
-    where: { id: params.id },
+    where: { id: pathParams.id },
     include: {
       jobs: true
     }
@@ -34,8 +34,8 @@ export const GET = createApiHandler(async (req: NextRequest) => {
   return NextResponse.json(schedule);
 });
 
-export const PUT = createApiHandler(async (req: NextRequest) => {
-  const params = Object.fromEntries(req.nextUrl.searchParams.entries());
+export const PUT = createApiHandler(async (req: NextRequest, { params }) => {
+  const pathParams = await params as { id: string };
   const authResult = await requirePermission(req, Permission.MANAGE_SCHEDULES);
   if (authResult instanceof NextResponse) return authResult;
 
@@ -50,7 +50,7 @@ export const PUT = createApiHandler(async (req: NextRequest) => {
   }
 
   const schedule = await prisma.schedule.update({
-    where: { id: params.id },
+    where: { id: pathParams.id },
     data: validationResult.data,
     include: {
       jobs: true
@@ -63,7 +63,7 @@ export const PUT = createApiHandler(async (req: NextRequest) => {
       entity: LogEntity.SCHEDULE,
       entityId: schedule.id,
       userId: authResult.id,
-      description: `Updated schedule ${schedule.title}`,
+      description: `Updated schedule for job ${schedule.id}`,
       metadata: data
     }
   });
@@ -71,22 +71,22 @@ export const PUT = createApiHandler(async (req: NextRequest) => {
   return NextResponse.json(schedule);
 });
 
-export const DELETE = createApiHandler(async (req: NextRequest) => {
-  const params = Object.fromEntries(req.nextUrl.searchParams.entries());
+export const DELETE = createApiHandler(async (req: NextRequest, { params }) => {
+  const pathParams = await params as { id: string };
   const authResult = await requirePermission(req, Permission.MANAGE_SCHEDULES);
   if (authResult instanceof NextResponse) return authResult;
 
   const schedule = await prisma.schedule.delete({
-    where: { id: params.id }
+    where: { id: pathParams.id }
   });
 
   await prisma.activityLog.create({
     data: {
       type: LogType.DELETE,
       entity: LogEntity.SCHEDULE,
-      entityId: params.id,
+      entityId: pathParams.id,
       userId: authResult.id,
-      description: `Deleted schedule ${schedule.title}`
+      description: `Deleted schedule for job ${schedule.id}`
     }
   });
 

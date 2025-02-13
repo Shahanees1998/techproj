@@ -6,7 +6,10 @@ const PUBLIC_PATHS = [
   '/api/auth/login',
   '/api/auth/verify',
   '/auth/login',
-  '/auth/verify'
+  '/auth/verify',
+  '/api/docs',
+  '/api/docs/*',
+  "/openapi.yaml"
 ];
 
 export async function middleware(request: NextRequest) {
@@ -51,6 +54,6 @@ export async function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     '/api/:path*',
-    '/((?!_next/static|_next/image|favicon.ico).*)',
+    '/((?!_next/static|_next/image|favicon.ico|demo|layout|theme).*)'
   ],
 }; 

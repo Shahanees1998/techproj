@@ -5,17 +5,13 @@ import { requirePermission } from '@/lib/auth';
 import { invoiceSchema } from '@/lib/validation';
 import { LogType, LogEntity, Permission } from '@prisma/client';
 
-export const GET = createApiHandler(async (req: NextRequest) => {
-  const params = Object.fromEntries(req.nextUrl.searchParams.entries());
+export const GET = createApiHandler(async (req: NextRequest, { params }) => {
+  const pathParams = await params as { id: string };
   const authResult = await requirePermission(req, Permission.MANAGE_INVOICES);
   if (authResult instanceof NextResponse) return authResult;
 
   const invoice = await prisma.invoice.findUnique({
-    where: { id: params.id },
-    include: {
-      job: true,
-      client: true
-    }
+    where: { id: pathParams.id }
   });
 
   if (!invoice) {
@@ -35,8 +31,8 @@ export const GET = createApiHandler(async (req: NextRequest) => {
   return NextResponse.json(invoice);
 });
 
-export const PUT = createApiHandler(async (req: NextRequest) => {
-  const params = Object.fromEntries(req.nextUrl.searchParams.entries());
+export const PUT = createApiHandler(async (req: NextRequest, { params }) => {
+  const pathParams = await params as { id: string };
   const authResult = await requirePermission(req, Permission.MANAGE_INVOICES);
   if (authResult instanceof NextResponse) return authResult;
 
@@ -51,12 +47,8 @@ export const PUT = createApiHandler(async (req: NextRequest) => {
   }
 
   const invoice = await prisma.invoice.update({
-    where: { id: params.id },
-    data: validationResult.data,
-    include: {
-      job: true,
-      client: true
-    }
+    where: { id: pathParams.id },
+    data: validationResult.data
   });
 
   await prisma.activityLog.create({
@@ -73,20 +65,20 @@ export const PUT = createApiHandler(async (req: NextRequest) => {
   return NextResponse.json(invoice);
 });
 
-export const DELETE = createApiHandler(async (req: NextRequest) => {
-  const params = Object.fromEntries(req.nextUrl.searchParams.entries());
+export const DELETE = createApiHandler(async (req: NextRequest, { params }) => {
+  const pathParams = await params as { id: string };
   const authResult = await requirePermission(req, Permission.MANAGE_INVOICES);
   if (authResult instanceof NextResponse) return authResult;
 
   const invoice = await prisma.invoice.delete({
-    where: { id: params.id }
+    where: { id: pathParams.id }
   });
 
   await prisma.activityLog.create({
     data: {
       type: LogType.DELETE,
       entity: LogEntity.INVOICE,
-      entityId: params.id,
+      entityId: pathParams.id,
       userId: authResult.id,
       description: `Deleted invoice ${invoice.number}`
     }

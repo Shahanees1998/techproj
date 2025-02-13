@@ -5,13 +5,13 @@ import { requirePermission } from '@/lib/auth';
 import { projectSchema } from '@/lib/validation';
 import { LogType, LogEntity, Permission } from '@prisma/client';
 
-export const GET = createApiHandler(async (req: NextRequest) => {
-  const params = Object.fromEntries(req.nextUrl.searchParams.entries());
+export const GET = createApiHandler(async (req: NextRequest, { params }) => {
+  const pathParams = await params as { id: string };
   const authResult = await requirePermission(req, Permission.READ_PROJECT);
   if (authResult instanceof NextResponse) return authResult;
 
   const project = await prisma.project.findUnique({
-    where: { id: params.id },
+    where: { id: pathParams.id },
     include: {
       client: true,
       team: true,
@@ -36,8 +36,8 @@ export const GET = createApiHandler(async (req: NextRequest) => {
   return NextResponse.json(project);
 });
 
-export const PUT = createApiHandler(async (req: NextRequest) => {
-  const params = Object.fromEntries(req.nextUrl.searchParams.entries());
+export const PUT = createApiHandler(async (req: NextRequest, { params }) => {
+  const pathParams = await params as { id: string };
   const authResult = await requirePermission(req, Permission.UPDATE_PROJECT);
   if (authResult instanceof NextResponse) return authResult;
 
@@ -52,7 +52,7 @@ export const PUT = createApiHandler(async (req: NextRequest) => {
   }
 
   const project = await prisma.project.update({
-    where: { id: params.id },
+    where: { id: pathParams.id },
     data: validationResult.data,
     include: {
       client: true,
@@ -75,20 +75,20 @@ export const PUT = createApiHandler(async (req: NextRequest) => {
   return NextResponse.json(project);
 });
 
-export const DELETE = createApiHandler(async (req: NextRequest) => {
-  const params = Object.fromEntries(req.nextUrl.searchParams.entries());
+export const DELETE = createApiHandler(async (req: NextRequest, { params }) => {
+  const pathParams = await params as { id: string };
   const authResult = await requirePermission(req, Permission.DELETE_PROJECT);
   if (authResult instanceof NextResponse) return authResult;
 
   const project = await prisma.project.delete({
-    where: { id: params.id }
+    where: { id: pathParams.id }
   });
 
   await prisma.activityLog.create({
     data: {
       type: LogType.DELETE,
       entity: LogEntity.PROJECT,
-      entityId: params.id,
+      entityId: pathParams.id,
       userId: authResult.id,
       description: `Deleted project ${project.name}`
     }
