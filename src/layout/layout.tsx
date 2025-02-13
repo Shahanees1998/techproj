@@ -1,22 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
-
-import { useRouter } from 'next/navigation';
-import { useEventListener, useMountEffect, useUnmountEffect } from 'primereact/hooks';
+import { useEventListener, useUnmountEffect } from 'primereact/hooks';
 import React, { useContext, useEffect, useRef } from 'react';
 import { classNames } from 'primereact/utils';
 import AppFooter from './AppFooter';
 import AppSidebar from './AppSidebar';
 import AppTopbar from './AppTopbar';
-import AppConfig from './AppConfig';
 import { LayoutContext } from './context/layoutcontext';
-import { PrimeReactContext } from 'primereact/api';
-import { ChildContainerProps, LayoutState, AppTopbarRef } from '@/types';
+import { ChildContainerProps, AppTopbarRef } from '@/types';
 import { usePathname, useSearchParams } from 'next/navigation';
 
 const Layout = ({ children }: ChildContainerProps) => {
-    const { layoutConfig, layoutState, setLayoutState } = useContext(LayoutContext);
-    const { setRipple } = useContext(PrimeReactContext);
+    const { layoutConfig, layoutState } = useContext(LayoutContext);
     const topbarRef = useRef<AppTopbarRef>(null);
     const sidebarRef = useRef<HTMLDivElement>(null);
     const [bindMenuOutsideClickListener, unbindMenuOutsideClickListener] = useEventListener({
@@ -59,22 +54,22 @@ const Layout = ({ children }: ChildContainerProps) => {
     });
 
     const hideMenu = () => {
-        setLayoutState((prevLayoutState: LayoutState) => ({
-            ...prevLayoutState,
-            overlayMenuActive: false,
-            staticMenuMobileActive: false,
-            menuHoverActive: false
-        }));
-        unbindMenuOutsideClickListener();
-        unblockBodyScroll();
+        // setLayoutState((prevLayoutState: LayoutState) => ({
+        //     ...prevLayoutState,
+        //     overlayMenuActive: false,
+        //     staticMenuMobileActive: false,
+        //     menuHoverActive: false
+        // }));
+        // unbindMenuOutsideClickListener();
+        // unblockBodyScroll();
     };
 
     const hideProfileMenu = () => {
-        setLayoutState((prevLayoutState: LayoutState) => ({
-            ...prevLayoutState,
-            profileSidebarVisible: false
-        }));
-        unbindProfileMenuOutsideClickListener();
+        // setLayoutState((prevLayoutState: LayoutState) => ({
+        //     ...prevLayoutState,
+        //     profileSidebarVisible: false
+        // }));
+        // unbindProfileMenuOutsideClickListener();
     };
 
     const blockBodyScroll = (): void => {
@@ -85,20 +80,20 @@ const Layout = ({ children }: ChildContainerProps) => {
         }
     };
 
-    const unblockBodyScroll = (): void => {
-        if (document.body.classList) {
-            document.body.classList.remove('blocked-scroll');
-        } else {
-            document.body.className = document.body.className.replace(new RegExp('(^|\\b)' + 'blocked-scroll'.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
-        }
-    };
+    // const unblockBodyScroll = (): void => {
+    //     if (document.body.classList) {
+    //         document.body.classList.remove('blocked-scroll');
+    //     } else {
+    //         document.body.className = document.body.className.replace(new RegExp('(^|\\b)' + 'blocked-scroll'.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
+    //     }
+    // };
 
     useEffect(() => {
         if (layoutState.overlayMenuActive || layoutState.staticMenuMobileActive) {
             bindMenuOutsideClickListener();
         }
 
-        layoutState.staticMenuMobileActive && blockBodyScroll();
+        if (layoutState.staticMenuMobileActive) blockBodyScroll();
     }, [layoutState.overlayMenuActive, layoutState.staticMenuMobileActive]);
 
     useEffect(() => {
@@ -133,7 +128,6 @@ const Layout = ({ children }: ChildContainerProps) => {
                     <div className="layout-main">{children}</div>
                     <AppFooter />
                 </div>
-                {/* <AppConfig /> */}
                 <div className="layout-mask"></div>
             </div>
         </React.Fragment>

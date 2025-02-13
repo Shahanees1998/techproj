@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import {
     Page,
     AppBreadcrumbProps,
@@ -6,10 +6,8 @@ import {
     BreadcrumbItem,
     MenuProps,
     MenuModel,
-    AppSubMenuProps,
     LayoutConfig,
     LayoutState,
-    AppBreadcrumbState,
     Breadcrumb,
     LayoutContextProps,
     MailContextProps,
@@ -19,7 +17,6 @@ import {
     AppConfigProps,
     NodeRef,
     AppTopbarRef,
-    MenuModelItem,
     AppMenuItemProps,
     AppMenuItem
 } from './layout';
@@ -28,6 +25,15 @@ import { Demo, LayoutType, SortOrderType, CustomEvent, ChartDataState, ChartOpti
 type ChildContainerProps = {
     children: ReactNode;
 };
+
+export interface LayoutContextProps {
+    layoutConfig: LayoutConfig;
+    setLayoutConfig: (config: LayoutConfig) => void;
+    layoutState: LayoutState;
+    setLayoutState: (state: LayoutState) => void;
+    onMenuToggle: () => void;
+    showProfileSidebar: () => void;
+}
 
 export type {
     Page,

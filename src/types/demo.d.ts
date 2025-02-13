@@ -1,5 +1,5 @@
 /* FullCalendar Types */
-import { EventApi, EventInput } from '@fullcalendar/core';
+import { EventInput } from '@fullcalendar/core';
 
 /* Chart.js Types */
 import { ChartData, ChartOptions } from 'chart.js';
@@ -199,13 +199,13 @@ declare namespace Demo {
     type Icon = {
         icon?: {
             paths?: string[];
-            attrs?: [{}];
+            attrs?: object[];
             isMulticolor?: boolean;
             isMulticolor2?: boolean;
             grid?: number;
             tags?: string[];
         };
-        attrs?: [{}];
+        attrs?: object[];
         properties?: {
             order?: number;
             id: number;
@@ -217,4 +217,15 @@ declare namespace Demo {
         setId?: number;
         iconIdx?: number;
     };
+
+    interface Demo {
+        id?: string;
+        name?: string;
+        data?: object;
+    }
+
+    interface ChartData {
+        labels?: string[];
+        datasets?: object[];
+    }
 }
