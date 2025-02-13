@@ -10,11 +10,25 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Role {
-  ADMIN
-  TECHNICIAN
-  CLIENT_CP // Client Contact Person
-  CLIENT_IP // Client Invoice Person
+enum Permission {
+  CREATE_USER
+  READ_USER
+  UPDATE_USER
+  DELETE_USER
+  READ_ALL_USERS
+  UPDATE_ALL_USERS
+  DELETE_ALL_USERS
+  CREATE_PROJECT
+  READ_PROJECT
+  UPDATE_PROJECT
+  DELETE_PROJECT
+  CREATE_JOB
+  READ_JOB
+  UPDATE_JOB
+  DELETE_JOB
+  MANAGE_SCHEDULES
+  MANAGE_PAYROLL
+  MANAGE_INVOICES
 }
 
 enum ProjectStatus {
@@ -42,6 +56,7 @@ enum PayrollStatus {
 }
 
 enum LogType {
+  READ
   CREATE
   UPDATE
   DELETE
@@ -64,19 +79,29 @@ enum LogEntity {
   PAYROLL
 }
 
+model Role {
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  name        String       @unique
+  permissions Permission[]
+  users       User[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
 model User {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   email     String   @unique
   name      String
-  role      Role
+  roleId    String   @db.ObjectId  // Changed from role enum to roleId
   clientId  String?  @db.ObjectId
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   // Virtual Relations
-  client         Client?       @relation(fields: [clientId], references: [id])
-  projects       Project[]     @relation(fields: [projectIds], references: [id])
-  projectIds     String[]      @db.ObjectId
+  role          Role          @relation(fields: [roleId], references: [id])
+  client        Client?       @relation(fields: [clientId], references: [id])
+  projects      Project[]     @relation(fields: [projectIds], references: [id])
+  projectIds    String[]      @db.ObjectId
   assignedJobs   Job[]         @relation("AssignedTechnicians", fields: [assignedJobIds], references: [id])
   assignedJobIds String[]      @db.ObjectId
   leadJobs       Job[]         @relation("LeadTechnicians", fields: [leadJobIds], references: [id])
