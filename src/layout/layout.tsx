@@ -9,6 +9,7 @@ import AppTopbar from './AppTopbar';
 import { LayoutContext } from './context/layoutcontext';
 import { ChildContainerProps, AppTopbarRef } from '@/types';
 import { usePathname, useSearchParams } from 'next/navigation';
+import { Suspense } from 'react'
 
 const Layout = ({ children }: ChildContainerProps) => {
     const { layoutConfig, layoutState } = useContext(LayoutContext);
@@ -118,19 +119,21 @@ const Layout = ({ children }: ChildContainerProps) => {
     });
 
     return (
-        <React.Fragment>
-            <div className={containerClass}>
-                <AppTopbar ref={topbarRef} />
-                <div ref={sidebarRef} className="layout-sidebar">
-                    <AppSidebar />
+        <Suspense>
+            <React.Fragment>
+                <div className={containerClass}>
+                    <AppTopbar ref={topbarRef} />
+                    <div ref={sidebarRef} className="layout-sidebar">
+                        <AppSidebar />
+                    </div>
+                    <div className="layout-main-container">
+                        <div className="layout-main">{children}</div>
+                        <AppFooter />
+                    </div>
+                    <div className="layout-mask"></div>
                 </div>
-                <div className="layout-main-container">
-                    <div className="layout-main">{children}</div>
-                    <AppFooter />
-                </div>
-                <div className="layout-mask"></div>
-            </div>
-        </React.Fragment>
+            </React.Fragment>
+        </Suspense>
     );
 };
 
