@@ -96,10 +96,14 @@ model User {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   email     String   @unique
   name      String
-  roleId    String   @db.ObjectId  // Changed from role enum to roleId
+  roleId    String   @db.ObjectId
   clientId  String?  @db.ObjectId
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  // Add OTP fields
+  otpToken     String?   // For storing the OTP token
+  otpExpiresAt DateTime? // For OTP expiration
 
   // Virtual Relations
   role          Role          @relation(fields: [roleId], references: [id])
