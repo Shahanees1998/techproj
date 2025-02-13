@@ -20,4 +20,18 @@ export const projectSchema = z.object({
   teamIds: z.array(z.string()).optional()
 });
 
-export type ProjectCreateInput = z.infer<typeof projectSchema>; 
+export type ProjectCreateInput = z.infer<typeof projectSchema>;
+
+// Add job schema
+export const jobSchema = z.object({
+  title: z.string().min(2),
+  description: z.string(),
+  status: z.enum(['PENDING', 'IN_PROGRESS', 'COMPLETED']),
+  startDate: z.coerce.date(),
+  endDate: z.coerce.date().optional(),
+  projectId: z.string(),
+  leadTechIds: z.array(z.string()).optional(),
+  technicianIds: z.array(z.string()).optional()
+});
+
+export type JobCreateInput = z.infer<typeof jobSchema>; 

@@ -9,20 +9,32 @@ Progress:
   [X] GET /api/projects/[id] (get single project)
   [X] PUT /api/projects/[id] (update project)
   [X] DELETE /api/projects/[id] (delete project)
-[ ] Create Jobs API routes
-  - GET /api/jobs (list with filters & pagination)
-  - POST /api/jobs (create new job)
-  - GET /api/jobs/[id] (get single job)
-  - PUT /api/jobs/[id] (update job)
-  - DELETE /api/jobs/[id] (delete job)
+[X] Create Jobs API routes
+  [X] GET /api/jobs (list with filters & pagination)
+  [X] POST /api/jobs (create new job)
+  [X] GET /api/jobs/[id] (get single job)
+  [X] PUT /api/jobs/[id] (update job)
+  [X] DELETE /api/jobs/[id] (delete job)
+[ ] Create Clients API routes
+  - GET /api/clients (list with filters & pagination)
+  - POST /api/clients (create new client)
+  - GET /api/clients/[id] (get single client)
+  - PUT /api/clients/[id] (update client)
+  - DELETE /api/clients/[id] (delete client)
 
 Next Steps:
-1. Create job validation schema
-2. Create base jobs route file
-3. Create dynamic [id] routes file for jobs
+1. Create client validation schema
+2. Create base clients route file
+3. Create dynamic [id] routes file for clients
 4. Add permission checks
 5. Add activity logging
 6. Add error handling
+
+Required Client Permissions:
+- CREATE_CLIENT
+- READ_CLIENT
+- UPDATE_CLIENT
+- DELETE_CLIENT
 
 Required Job Permissions:
 - CREATE_JOB
