@@ -34,4 +34,14 @@ export const jobSchema = z.object({
   technicianIds: z.array(z.string()).optional()
 });
 
-export type JobCreateInput = z.infer<typeof jobSchema>; 
+export type JobCreateInput = z.infer<typeof jobSchema>;
+
+// Add client schema
+export const clientSchema = z.object({
+  name: z.string().min(2),
+  address: z.string(),
+  phone: z.string().min(10),
+  userIds: z.array(z.string()).optional() // For CP and IP users
+});
+
+export type ClientCreateInput = z.infer<typeof clientSchema>; 

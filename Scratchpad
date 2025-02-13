@@ -15,20 +15,30 @@ Progress:
   [X] GET /api/jobs/[id] (get single job)
   [X] PUT /api/jobs/[id] (update job)
   [X] DELETE /api/jobs/[id] (delete job)
-[ ] Create Clients API routes
-  - GET /api/clients (list with filters & pagination)
-  - POST /api/clients (create new client)
-  - GET /api/clients/[id] (get single client)
-  - PUT /api/clients/[id] (update client)
-  - DELETE /api/clients/[id] (delete client)
+[X] Create Clients API routes
+  [X] GET /api/clients (list with filters & pagination)
+  [X] POST /api/clients (create new client)
+  [X] GET /api/clients/[id] (get single client)
+  [X] PUT /api/clients/[id] (update client)
+  [X] DELETE /api/clients/[id] (delete client)
+[ ] Create Schedules API routes
+  - GET /api/schedules (list with filters & pagination)
+  - POST /api/schedules (create new schedule)
+  - GET /api/schedules/[id] (get single schedule)
+  - PUT /api/schedules/[id] (update schedule)
+  - DELETE /api/schedules/[id] (delete schedule)
 
 Next Steps:
-1. Create client validation schema
-2. Create base clients route file
-3. Create dynamic [id] routes file for clients
-4. Add permission checks
-5. Add activity logging
-6. Add error handling
+1. Add MANAGE_SCHEDULES permission to schema
+2. Create schedule validation schema
+3. Create base schedules route file
+4. Create dynamic [id] routes file for schedules
+5. Add permission checks
+6. Add activity logging
+7. Add error handling
+
+Required Schedule Permissions:
+- MANAGE_SCHEDULES (single permission for all schedule operations)
 
 Required Client Permissions:
 - CREATE_CLIENT
