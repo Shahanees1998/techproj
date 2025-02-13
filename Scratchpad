@@ -1,0 +1,37 @@
+Current Task: Creating API Routes
+
+Progress:
+[X] Create API handler utility
+[X] Create Users API routes
+[X] Create Projects API routes
+  [X] GET /api/projects (list with filters & pagination)
+  [X] POST /api/projects (create new project)
+  [X] GET /api/projects/[id] (get single project)
+  [X] PUT /api/projects/[id] (update project)
+  [X] DELETE /api/projects/[id] (delete project)
+[ ] Create Jobs API routes
+  - GET /api/jobs (list with filters & pagination)
+  - POST /api/jobs (create new job)
+  - GET /api/jobs/[id] (get single job)
+  - PUT /api/jobs/[id] (update job)
+  - DELETE /api/jobs/[id] (delete job)
+
+Next Steps:
+1. Create job validation schema
+2. Create base jobs route file
+3. Create dynamic [id] routes file for jobs
+4. Add permission checks
+5. Add activity logging
+6. Add error handling
+
+Required Job Permissions:
+- CREATE_JOB
+- READ_JOB
+- UPDATE_JOB
+- DELETE_JOB
+
+Required Permissions:
+- CREATE_PROJECT
+- READ_PROJECT
+- UPDATE_PROJECT
+- DELETE_PROJECT 
