@@ -1,6 +1,8 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { User } from '@prisma/client';
+import { deleteCookieClientSide } from '@/helpers/clientHelper';
+import { getCookieServerSide } from '@/helpers/serverHelpers';
 
 interface AuthContextType {
     user: User | null;
@@ -23,24 +25,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [loading, setLoading] = useState(true);
     const router = useRouter();
 
-    useEffect(() => {
-        // Check for stored auth token
-        const token = localStorage.getItem('auth_token');
-        if (token) {
-            verifyToken(token);
-        } else {
-            setLoading(false);
-        }
-    }, []);
+    const handleLogout = useCallback(() => {
+        deleteCookieClientSide('token');
+        setUser(null);
+        router.push('/auth/login');
+    }, [router]);
 
-    const verifyToken = async (token: string) => {
+    const verifyToken = useCallback(async (token: string) => {
         try {
-            const response = await fetch('/api/auth/verify', {
+            console.log('pathname in context >>>>>>>>>>>',window.location.pathname)
+            const response = await fetch('/api/auth/verifyToken', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ token })
             });
-
+           
             if (!response.ok) throw new Error('Invalid token');
 
             const data = await response.json();
@@ -51,7 +50,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         } finally {
             setLoading(false);
         }
-    };
+    }, [handleLogout]);
+    
+    useEffect(() => {
+        const checkAuthToken = async () => {
+            // Check for stored auth token
+            const token = await getCookieServerSide('token');
+            console.log('token in context >>>>>>>>>>>>', token);
+            if (token) {
+                verifyToken(token);
+            } else {
+                setLoading(false);
+            }
+        };
+
+        checkAuthToken();
+    }, [verifyToken]);
 
     const login = async (email: string) => {
         try {
@@ -71,7 +85,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
     };
 
-    const verify = async (token: string) => {
+    const verify = useCallback(async (token: string) => {
         try {
             const response = await fetch('/api/auth/verify', {
                 method: 'POST',
@@ -83,22 +97,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
             const data = await response.json();
             handleAuthSuccess(data);
-            router.push('/dashboard');
+            router.push('/');
         } catch (error) {
             console.error('Verification failed:', error);
             throw error;
         }
-    };
+    }, [router]);
 
     const handleAuthSuccess = (data: { token: string; user: User }) => {
-        localStorage.setItem('auth_token', data.token);
+        // localStorage.setItem('auth_token', data.token);
         setUser(data.user);
-    };
-
-    const handleLogout = () => {
-        localStorage.removeItem('auth_token');
-        setUser(null);
-        router.push('/auth/login');
     };
 
     return (

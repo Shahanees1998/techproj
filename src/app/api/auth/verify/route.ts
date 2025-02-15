@@ -11,7 +11,6 @@ const verifySchema = z.object({
 
 export const POST = createApiHandler(async (req: NextRequest) => {
   const data = await req.json();
-  
   const validationResult = verifySchema.safeParse(data);
   if (!validationResult.success) {
     return NextResponse.json(
@@ -21,7 +20,6 @@ export const POST = createApiHandler(async (req: NextRequest) => {
   }
 
   const { token } = validationResult.data;
-
   // Find user with valid OTP token
   const user = await prisma.user.findFirst({
     where: {
@@ -30,7 +28,6 @@ export const POST = createApiHandler(async (req: NextRequest) => {
     },
     include: { role: true }
   });
-
   if (!user) {
     return NextResponse.json(
       { error: 'Invalid or expired token' },
@@ -58,7 +55,7 @@ export const POST = createApiHandler(async (req: NextRequest) => {
     .setIssuedAt()
     .setExpirationTime('24h')
     .sign(secret);
-
+console.log('JWT token >>>>>>>>>>>>>>>>>')
   await prisma.activityLog.create({
     data: {
       type: LogType.LOGIN,
@@ -68,8 +65,7 @@ export const POST = createApiHandler(async (req: NextRequest) => {
       description: `User logged in: ${user.email}`
     }
   });
-
-  return NextResponse.json({
+  const response = NextResponse.json({
     token: jwtToken,
     user: {
       id: user.id,
@@ -78,4 +74,11 @@ export const POST = createApiHandler(async (req: NextRequest) => {
       role: user.role.name
     }
   });
+  response.cookies.set('token', jwtToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    maxAge: 60 * 60 * 24 * 30 // 30 days
+  });
+  return response;
 }); 

@@ -1,24 +1,50 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
-import { useRouter } from 'next/navigation';
 import React, { useContext, useState } from 'react';
 import { Checkbox } from 'primereact/checkbox';
 import { Button } from 'primereact/button';
-import { Password } from 'primereact/password';
+// import { Password } from 'primereact/password';
 import { LayoutContext } from '../../../../layout/context/layoutcontext';
 import { InputText } from 'primereact/inputtext';
 import { classNames } from 'primereact/utils';
+import API from '../../../../helpers/apiClient';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const LoginPage = () => {
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('');
+    // const [password, setPassword] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const [checked, setChecked] = useState(false);
     const { layoutConfig } = useContext(LayoutContext);
 
-    const router = useRouter();
     const containerClassName = classNames('surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden', { 'p-input-filled': layoutConfig.inputStyle === 'filled' });
+
+    // Email validation regex
+    const isEmailValid = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+    const handleLogin = async () => {
+        setIsLoading(true);
+        try {
+            const response = await API.post('/auth/login', { email });
+            console.log("response--->>>>>>>>>>>>>>>>>", response);
+            if (response.status === 200) {
+                toast.success('Login email sent successfully!');
+            } else {
+                // Handle error
+                toast.error('Failed to send login email.');
+            }
+        } catch (error) {
+            console.error("Login error:", error);
+            toast.error('An error occurred while sending the email.');
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     return (
         <div className={containerClassName}>
+            <ToastContainer />
             <div className="flex flex-column align-items-center justify-content-center">
                 <img src={`/layout/images/logo-${layoutConfig.colorScheme === 'light' ? 'dark' : 'white'}.svg`} alt="Sakai logo" className="mb-5 w-6rem flex-shrink-0" />
                 <div
@@ -39,12 +65,12 @@ const LoginPage = () => {
                             <label htmlFor="email1" className="block text-900 text-xl font-medium mb-2">
                                 Email
                             </label>
-                            <InputText id="email1" type="text" placeholder="Email address" className="w-full md:w-30rem mb-5" style={{ padding: '1rem' }} />
+                            <InputText id="email1" type="text" placeholder="Email address" className="w-full md:w-30rem mb-5" style={{ padding: '1rem' }} value={email} onChange={(e) => setEmail(e.target.value)} />
 
-                            <label htmlFor="password1" className="block text-900 font-medium text-xl mb-2">
+                            {/* <label htmlFor="password1" className="block text-900 font-medium text-xl mb-2">
                                 Password
                             </label>
-                            <Password inputId="password1" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" toggleMask className="w-full mb-5" inputClassName="w-full p-3 md:w-30rem"></Password>
+                            <Password inputId="password1" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" toggleMask className="w-full mb-5" inputClassName="w-full p-3 md:w-30rem"></Password> */}
 
                             <div className="flex align-items-center justify-content-between mb-5 gap-5">
                                 <div className="flex align-items-center">
@@ -55,7 +81,12 @@ const LoginPage = () => {
                                     Forgot password?
                                 </a>
                             </div>
-                            <Button label="Sign In" className="w-full p-3 text-xl" onClick={() => router.push('/')}></Button>
+                            <Button 
+                                label={isLoading ? "Loading..." : "Sign In"} 
+                                className={`w-full p-3 text-xl ${isLoading || !isEmailValid(email) ? 'opacity-50 cursor-not-allowed' : ''}`} 
+                                onClick={isEmailValid(email) ? handleLogin : undefined} 
+                                disabled={isLoading || !isEmailValid(email)}
+                            ></Button>
                         </div>
                     </div>
                 </div>

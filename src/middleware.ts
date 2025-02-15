@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { jwtVerify } from 'jose';
+import { getToken } from './helpers/serverHelpers';
 
 const PUBLIC_PATHS = [
   '/api/auth/login',
@@ -13,19 +14,21 @@ const PUBLIC_PATHS = [
 ];
 
 export async function middleware(request: NextRequest) {
+  const pathname = request.nextUrl.pathname;
+
   // Check if path is public
-  if (PUBLIC_PATHS.some(path => request.nextUrl.pathname.startsWith(path))) {
+  if (PUBLIC_PATHS.some(path => pathname.startsWith(path))) {
     return NextResponse.next();
   }
+  const token = await getToken(request)
 
-  const token = request.headers.get('authorization')?.split(' ')[1];
+  console.log('token in middleware >>>>>>>>>>>', token)
   if (!token) {
     return NextResponse.json(
       { error: 'Missing authentication token' },
       { status: 401 }
     );
   }
-
   try {
     // Verify JWT token
     const secret = new TextEncoder().encode(process.env.JWT_SECRET);
@@ -54,6 +57,7 @@ export async function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     '/api/:path*',
+    '/sw.js',
     '/((?!_next/static|_next/image|favicon.ico|demo|layout|theme).*)'
   ],
 }; 

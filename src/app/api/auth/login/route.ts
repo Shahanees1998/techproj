@@ -12,7 +12,7 @@ const loginSchema = z.object({
 
 export const POST = createApiHandler(async (req: NextRequest) => {
   const data = await req.json();
-  
+  console.log("data--->>>>>>>>>>>>>>>>>", data);
   const validationResult = loginSchema.safeParse(data);
   if (!validationResult.success) {
     return NextResponse.json(
