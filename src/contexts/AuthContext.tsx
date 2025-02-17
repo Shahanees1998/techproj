@@ -34,7 +34,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const verifyToken = useCallback(async (token: string) => {
         try {
-            const response = await fetch('/api/auth/verify-token', {
+            const response = await fetch('/api/auth/verify-jwt', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ token })

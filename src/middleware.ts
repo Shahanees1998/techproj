@@ -7,7 +7,7 @@ import { getToken } from "./helpers/serverHelpers";
 const ignoreRoutes = [
   '/api/auth/login',
   '/api/auth/verify-link',
-  '/api/auth/verify-token',
+  '/api/auth/verify-jwt',
   '/auth/login',
   '/auth/verify',
   '/api/docs',
