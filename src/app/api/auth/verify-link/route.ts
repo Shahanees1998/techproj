@@ -21,7 +21,7 @@ export const POST = createApiHandler(async (req: NextRequest) => {
   }
 
   const { token } = validationResult.data;
-  
+
   // Find user with valid OTP token
   const user = await prisma.user.findFirst({
     where: {
@@ -58,7 +58,7 @@ export const POST = createApiHandler(async (req: NextRequest) => {
     .setIssuedAt()
     .setExpirationTime('24h')
     .sign(secret);
-    
+  
   await prisma.activityLog.create({
     data: {
       type: LogType.LOGIN,
