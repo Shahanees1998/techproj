@@ -55,7 +55,6 @@ export const POST = createApiHandler(async (req: NextRequest) => {
     .setIssuedAt()
     .setExpirationTime('24h')
     .sign(secret);
-console.log('JWT token >>>>>>>>>>>>>>>>>')
   await prisma.activityLog.create({
     data: {
       type: LogType.LOGIN,

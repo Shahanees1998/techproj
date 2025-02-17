@@ -1,11 +1,13 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
-import { jwtVerify } from 'jose';
-import { getToken } from './helpers/serverHelpers';
+import { Role } from "@prisma/client";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { jwtVerify } from "jose";
+import { getToken } from "./helpers/serverHelpers";
 
-const PUBLIC_PATHS = [
+const ignoreRoutes = [
   '/api/auth/login',
-  '/api/auth/verify',
+  '/api/auth/verify-link',
+  '/api/auth/verify-token',
   '/auth/login',
   '/auth/verify',
   '/api/docs',
@@ -13,51 +15,110 @@ const PUBLIC_PATHS = [
   "/openapi.yaml"
 ];
 
-export async function middleware(request: NextRequest) {
+const i18nMiddleware = async (request: NextRequest): Promise<NextResponse> => {
   const pathname = request.nextUrl.pathname;
 
-  // Check if path is public
-  if (PUBLIC_PATHS.some(path => pathname.startsWith(path))) {
+  if (ignoreRoutes.some((route) => pathname.startsWith(route))) {
     return NextResponse.next();
   }
-  const token = await getToken(request)
 
-  console.log('token in middleware >>>>>>>>>>>', token)
-  if (!token) {
+  if (pathname === '/') {
+    return dashboardMiddleware(request);
+  } else if (pathname.startsWith(`/auth`)) {
+    return authMiddleware(request);
+  } else if (pathname.startsWith(`/api`)) {
+    return apiMiddleware(request);
+  } else if (pathname === "/") {
+    return NextResponse.redirect(new URL("/auth/login", request.url));
+  } else {
+    return NextResponse.next();
+  }
+};
+
+const apiMiddleware = async (request: NextRequest): Promise<NextResponse> => {
+  const isValidateToken = await isValidToken(request);
+  if (!isValidateToken.success) {
     return NextResponse.json(
-      { error: 'Missing authentication token' },
-      { status: 401 }
+      {
+        success: false,
+        message: "Unauthorized",
+        data: null,
+      },
+      { status: 401 },
     );
   }
+
+  return NextResponse.next();
+};
+
+const dashboardMiddleware = async (request: NextRequest): Promise<NextResponse> => {
+  const isValidateToken = await isValidToken(request);
+
+  if (!isValidateToken.success) {
+    return NextResponse.redirect(new URL("/auth/login", request.url));
+  }
+
+  return NextResponse.next();
+};
+
+const authMiddleware = async (request: NextRequest): Promise<NextResponse> => {
+  const isValidateToken = await isValidToken(request);
+
+  if (isValidateToken.success) {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
+
+  return NextResponse.next();
+};
+
+type TokenVerificationResponse = {
+  success: boolean;
+  role: Role | null;
+};
+
+const isValidToken = async (
+  request: NextRequest,
+): Promise<TokenVerificationResponse> => {
   try {
+    const token = await getToken(request)
+
+
+    if (!token) {
+      return {
+        success: false,
+        role: null,
+      };
+    }
+
     // Verify JWT token
     const secret = new TextEncoder().encode(process.env.JWT_SECRET);
     const { payload } = await jwtVerify(token, secret);
 
-    // Add user info to request headers
     const requestHeaders = new Headers(request.headers);
     requestHeaders.set('x-user-id', payload.sub as string);
     requestHeaders.set('x-user-role', payload.role as string);
 
     // Return response with modified headers
-    return NextResponse.next({
-      request: {
-        headers: requestHeaders,
-      },
-    });
+    return {
+      success: true,
+      role:null,
+    };
   } catch (error) {
     console.error('JWT verification error:', error);
-    return NextResponse.json(
-      { error: 'Invalid or expired token' },
-      { status: 401 }
-    );
+    return {
+      success: false,
+      role: null,
+    };
   }
+};
+
+export async function middleware(req: NextRequest) {
+  return i18nMiddleware(req);
 }
 
 export const config = {
   matcher: [
-    '/api/:path*',
-    '/sw.js',
-    '/((?!_next/static|_next/image|favicon.ico|demo|layout|theme).*)'
+    "/((?!_next/static|_next/image|images|favicon.ico).*)", // Include all paths except static assets
+    "/api/:path*", // Explicitly include /api routes
   ],
-}; 
+};

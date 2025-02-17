@@ -25,7 +25,6 @@ export async function requirePermission(
 ): Promise<AuthResult | NextResponse> {
   const userId = req.headers.get('x-user-id');
   const userRole = req.headers.get('x-user-role');
-  console.log('here3');
   if (!userId || !userRole) {
     return NextResponse.json(
       { error: 'Unauthorized' },

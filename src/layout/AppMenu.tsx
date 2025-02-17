@@ -4,8 +4,19 @@ import React from 'react';
 import AppMenuitem from './AppMenuitem';
 import { MenuProvider } from './context/menucontext';
 import { AppMenuItem } from '@/types';
+import { useAuth } from '@/contexts/AuthContext';
+import { useRouter } from 'next/navigation';
+import CommonButton from '@/components/common/primaryButton';
 
 const AppMenu = () => {
+    const { logout } = useAuth();
+    const router = useRouter();
+
+    const handleLogout = async () => {
+        await logout();
+        router.push('/auth/login');
+    };
+
     const model: AppMenuItem[] = [
         {
             label: 'Menu',
@@ -26,6 +37,13 @@ const AppMenu = () => {
                 {model.map((item, i) => {
                     return !item?.seperator ? <AppMenuitem item={item} root={true} index={i} key={item.label} /> : <li className="menu-separator"></li>;
                 })}
+                <li>
+                    <CommonButton 
+                        label="Logout" 
+                        onClick={handleLogout} 
+                        className="logout-button" 
+                    />
+                </li>
             </ul>
         </MenuProvider>
     );

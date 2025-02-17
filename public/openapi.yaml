@@ -73,7 +73,7 @@ paths:
                   message:
                     type: string
 
-  /auth/verify:
+  /auth/verify-link:
     post:
       summary: Verify login token
       description: Verifies the login token and returns a JWT

@@ -1,8 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { User } from '@prisma/client';
-import { deleteCookieClientSide } from '@/helpers/clientHelper';
-import { getCookieServerSide } from '@/helpers/serverHelpers';
+import { deleteCookieServerSide, getCookieServerSide } from '@/helpers/serverHelpers';
 
 interface AuthContextType {
     user: User | null;
@@ -26,20 +25,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const router = useRouter();
 
     const handleLogout = useCallback(() => {
-        deleteCookieClientSide('token');
+        deleteCookieServerSide('token');
         setUser(null);
         router.push('/auth/login');
     }, [router]);
 
     const verifyToken = useCallback(async (token: string) => {
         try {
-            console.log('pathname in context >>>>>>>>>>>',window.location.pathname)
-            const response = await fetch('/api/auth/verifyToken', {
+            const response = await fetch('/api/auth/verify-token', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ token })
             });
-           
+
             if (!response.ok) throw new Error('Invalid token');
 
             const data = await response.json();
@@ -51,12 +49,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             setLoading(false);
         }
     }, [handleLogout]);
-    
+
     useEffect(() => {
         const checkAuthToken = async () => {
-            // Check for stored auth token
             const token = await getCookieServerSide('token');
-            console.log('token in context >>>>>>>>>>>>', token);
             if (token) {
                 verifyToken(token);
             } else {
@@ -87,7 +83,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const verify = useCallback(async (token: string) => {
         try {
-            const response = await fetch('/api/auth/verify', {
+            const response = await fetch('/api/auth/verify-link', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ token })
