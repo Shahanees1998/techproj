@@ -1,0 +1,13 @@
+.container {
+    border-radius: 56px;
+    padding: 0.2rem;
+    width: 50%;
+    background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 60%);
+}
+
+
+@media (max-width: 768px) {
+    .container {
+        width: 100%;
+    }
+}

@@ -1,20 +1,17 @@
 'use client';
 import React, { useContext, useState } from 'react';
-import { Checkbox } from 'primereact/checkbox';
 import { LayoutContext } from '../../../../layout/context/layoutcontext';
 import { classNames } from 'primereact/utils';
 import API from '../../../../helpers/apiClient';
 import { ToastContainer, toast } from 'react-toastify';
-import InputField from '../../../../components/common/inputField';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
-import CommonButton from '@/components/common/primaryButton';
 import { AxiosError } from 'axios';
+import LoginUI from '@/components/auth/login';
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const [checked, setChecked] = useState(false);
     const { layoutConfig } = useContext(LayoutContext);
     const router = useRouter();
     const { user } = useAuth();
@@ -44,52 +41,15 @@ const LoginPage = () => {
     };
 
     return (
-        <div className={containerClassName}>
+        <div className={`${containerClassName} w-full max-w-4xl`}>
             <ToastContainer />
-            <div className="flex flex-column align-items-center justify-content-center">
-                <img src={`/layout/images/logo-${layoutConfig.colorScheme === 'light' ? 'dark' : 'white'}.svg`} alt="Sakai logo" className="mb-5 w-6rem flex-shrink-0" />
-                <div
-                    style={{
-                        borderRadius: '56px',
-                        padding: '0.3rem',
-                        background: 'linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%)'
-                    }}
-                >
-                    <div className="w-full surface-card py-8 px-5 sm:px-8" style={{ borderRadius: '53px' }}>
-                        <div className="text-center mb-5">
-                            <img src="/demo/images/login/avatar.png" alt="Image" height="50" className="mb-3" />
-                            <div className="text-900 text-3xl font-medium mb-3">Welcome, Isabel!</div>
-                            <span className="text-600 font-medium">Sign in to continue</span>
-                        </div>
-
-                        <div>
-                            <InputField
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                label="Email"
-                                placeholder="Email address"
-                                disabled={isLoading}
-                                error={!isEmailValid(email) ? 'Invalid email address' : undefined}
-                            />
-                            <div className="flex align-items-center justify-content-between mb-5 gap-5">
-                                <div className="flex align-items-center">
-                                    <Checkbox inputId="rememberme1" checked={checked} onChange={(e) => setChecked(e.checked ?? false)} className="mr-2"></Checkbox>
-                                    <label htmlFor="rememberme1">Remember me</label>
-                                </div>
-                                <a className="font-medium no-underline ml-2 text-right cursor-pointer" style={{ color: 'var(--primary-color)' }}>
-                                    Forgot password?
-                                </a>
-                            </div>
-                            <CommonButton 
-                                label={isLoading ? "Loading..." : "Sign In"} 
-                                className={`w-full p-3 text-xl ${isLoading || !isEmailValid(email) ? 'opacity-50 cursor-not-allowed' : ''}`} 
-                                onClick={isEmailValid(email) ? handleLogin : () => {}} 
-                                disabled={isLoading || !isEmailValid(email)}
-                            />
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <LoginUI
+                email={email}
+                setEmail={setEmail}
+                isLoading={isLoading}
+                handleLogin={handleLogin}
+                isEmailValid={isEmailValid}
+            />
         </div>
     );
 };

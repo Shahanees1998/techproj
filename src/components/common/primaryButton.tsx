@@ -17,6 +17,7 @@ const CommonButton: React.FC<CommonButtonProps> = ({ label, onClick, disabled = 
             disabled={disabled} 
             loading={loading} 
             className={className} 
+            style={{borderRadius: '20px'}}
         />
     );
 };
