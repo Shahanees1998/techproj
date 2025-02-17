@@ -3,7 +3,7 @@ import { useContext, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { ToastContainer, toast } from 'react-toastify';
-import axios from 'axios';
+import { AxiosError } from 'axios';
 import { classNames } from 'primereact/utils';
 import LoginUI from '@/components/auth/login';
 import { LayoutContext } from '@/layout/context/layoutcontext';
@@ -23,12 +23,9 @@ const VerifyPage = () => {
         try {
           await verify(token);
         } catch (error) {
-          if (axios.isAxiosError(error)) {
-            const errorMessage = error.response?.data?.message || error.message || 'An unknown error occurred.';
-            toast.error(errorMessage);
-          } else {
-            toast.error('An unknown error occurred.');
-          }
+          const axiosError = error as AxiosError<{ error: string }>;
+          const errorMessage = axiosError.message || 'An unknown error occurred.';
+          toast.error(errorMessage);
           setTimeout(() => router.push('/auth/login'), 5000);
         }
       } else {

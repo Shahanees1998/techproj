@@ -30,7 +30,6 @@ export const POST = createApiHandler(async (req: NextRequest) => {
     },
     include: { role: true }
   });
-
   if (!user) {
     return NextResponse.json(
       { error: 'invalid or expired token' },
