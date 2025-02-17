@@ -1,7 +1,6 @@
 'use client';
 import React, { useContext, useState } from 'react';
 import { Checkbox } from 'primereact/checkbox';
-import { Button } from 'primereact/button';
 import { LayoutContext } from '../../../../layout/context/layoutcontext';
 import { classNames } from 'primereact/utils';
 import API from '../../../../helpers/apiClient';
@@ -9,6 +8,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import InputField from '../../../../components/common/inputField';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
+import CommonButton from '@/components/common/primaryButton';
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
@@ -80,12 +80,12 @@ const LoginPage = () => {
                                     Forgot password?
                                 </a>
                             </div>
-                            <Button 
+                            <CommonButton 
                                 label={isLoading ? "Loading..." : "Sign In"} 
                                 className={`w-full p-3 text-xl ${isLoading || !isEmailValid(email) ? 'opacity-50 cursor-not-allowed' : ''}`} 
-                                onClick={isEmailValid(email) ? handleLogin : undefined} 
+                                onClick={isEmailValid(email) ? handleLogin : () => {}} 
                                 disabled={isLoading || !isEmailValid(email)}
-                            ></Button>
+                            />
                         </div>
                     </div>
                 </div>
