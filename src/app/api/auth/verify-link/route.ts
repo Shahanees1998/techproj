@@ -55,6 +55,7 @@ export const POST = createApiHandler(async (req: NextRequest) => {
     .setIssuedAt()
     .setExpirationTime('24h')
     .sign(secret);
+    
   await prisma.activityLog.create({
     data: {
       type: LogType.LOGIN,

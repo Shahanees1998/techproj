@@ -48,7 +48,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         } finally {
             setLoading(false);
         }
-    }, [handleLogout]);
+    }, []);
 
     useEffect(() => {
         const checkAuthToken = async () => {

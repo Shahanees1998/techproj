@@ -30,7 +30,7 @@ export const POST = createApiHandler(async (req: NextRequest) => {
 
   if (!user) {
     return NextResponse.json(
-      { error: 'Access denied. Please contact your administrator.' },
+      { error: 'user with this email not found' },
       { status: 403 }
     );
   }

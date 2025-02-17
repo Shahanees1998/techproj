@@ -23,8 +23,7 @@ export const POST = createApiHandler(async (req: NextRequest) => {
           });
           return response;
     } catch (error) {
-        console.log('error in verifyToken >>>>>>>>>>>', error)
-        return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
+        return NextResponse.json({ error }, { status: 401 });
     }
 
 

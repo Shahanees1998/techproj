@@ -28,8 +28,6 @@ const i18nMiddleware = async (request: NextRequest): Promise<NextResponse> => {
     return authMiddleware(request);
   } else if (pathname.startsWith(`/api`)) {
     return apiMiddleware(request);
-  } else if (pathname === "/") {
-    return NextResponse.redirect(new URL("/auth/login", request.url));
   } else {
     return NextResponse.next();
   }

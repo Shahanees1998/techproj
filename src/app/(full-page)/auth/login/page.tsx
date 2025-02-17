@@ -9,6 +9,7 @@ import InputField from '../../../../components/common/inputField';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import CommonButton from '@/components/common/primaryButton';
+import { AxiosError } from 'axios';
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
@@ -32,12 +33,11 @@ const LoginPage = () => {
             if (response.status === 200) {
                 toast.success('Login email sent successfully!');
             } else {
-                // Handle error
                 toast.error('Failed to send login email.');
             }
         } catch (error) {
-            console.error("Login error:", error);
-            toast.error('An error occurred while sending the email.');
+            const axiosError = error as AxiosError<{ error: string }>;
+            toast.error(axiosError.response?.data?.error || 'An unexpected error occurred.');
         } finally {
             setIsLoading(false);
         }
