@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { ToastContainer, toast } from 'react-toastify';
+import axios from 'axios';
 
 const VerifyPage = () => {
   const router = useRouter();
@@ -14,10 +15,14 @@ const VerifyPage = () => {
 
       if (token) {
         try {
-          await verify(token)
+          await verify(token);
         } catch (error) {
-          console.error('Error verifying token:', error);
-          toast.error('Error verifying token. Please try again.');
+          if (axios.isAxiosError(error)) {
+            const errorMessage = error.response?.data?.message || error.message || 'An unknown error occurred.';
+            toast.error(errorMessage);
+          } else {
+            toast.error('An unknown error occurred.');
+          }
           setTimeout(() => router.push('/auth/login'), 5000); 
         }
       } else {

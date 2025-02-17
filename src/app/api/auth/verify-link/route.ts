@@ -18,7 +18,6 @@ export const POST = createApiHandler(async (req: NextRequest) => {
       { status: 400 }
     );
   }
-
   const { token } = validationResult.data;
   // Find user with valid OTP token
   const user = await prisma.user.findFirst({
@@ -30,11 +29,10 @@ export const POST = createApiHandler(async (req: NextRequest) => {
   });
   if (!user) {
     return NextResponse.json(
-      { error: 'Invalid or expired token' },
-      { status: 401 }
+      { error: 'invalid or expired token' },
+      { status: 403 }
     );
   }
-
   // Clear OTP token
   await prisma.user.update({
     where: { id: user.id },
@@ -55,7 +53,6 @@ export const POST = createApiHandler(async (req: NextRequest) => {
     .setIssuedAt()
     .setExpirationTime('24h')
     .sign(secret);
-    
   await prisma.activityLog.create({
     data: {
       type: LogType.LOGIN,

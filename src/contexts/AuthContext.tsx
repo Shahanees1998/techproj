@@ -2,6 +2,8 @@ import { createContext, useCallback, useContext, useEffect, useState } from 'rea
 import { useRouter } from 'next/navigation';
 import { User } from '@prisma/client';
 import { deleteCookieServerSide, getCookieServerSide } from '@/helpers/serverHelpers';
+import API from '@/helpers/apiClient';
+import { AxiosError } from 'axios';
 
 interface AuthContextType {
     user: User | null;
@@ -83,20 +85,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const verify = useCallback(async (token: string) => {
         try {
-            const response = await fetch('/api/auth/verify-link', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ token })
-            });
-
-            if (!response.ok) throw new Error('Verification failed');
-
-            const data = await response.json();
-            handleAuthSuccess(data);
-            router.push('/');
+            const response = await API.post('/auth/verify-link', { token });
+            if (response.status === 200) {
+                const data = response.data;
+                handleAuthSuccess(data);
+                router.push('/');
+            }
+            else {
+                throw new Error('Verification failed');
+            }
         } catch (error) {
-            console.error('Verification failed:', error);
-            throw error;
+            const axiosError = error as AxiosError<{ error: string }>;
+            throw new Error(axiosError.response?.data?.error || 'An unexpected error occurred.');
         }
     }, [router]);
 
