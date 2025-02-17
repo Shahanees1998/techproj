@@ -99,6 +99,41 @@ paths:
                   user:
                     $ref: '#/components/schemas/User'
 
+  /auth/verify-jwt:
+    post:
+      summary: Verify JWT token
+      description: Validates the provided JWT token and returns user details if valid.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+      responses:
+        '200':
+          description: Token verified successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                  user:
+                    $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized - Invalid token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
   /users:
     get:
       summary: List users
