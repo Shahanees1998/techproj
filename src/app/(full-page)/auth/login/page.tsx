@@ -41,7 +41,7 @@ const LoginPage = () => {
     };
 
     return (
-        <div className={`${containerClassName} w-full max-w-4xl`}>
+        <div className={`${containerClassName || ''} w-full max-w-4xl`}>
             <ToastContainer />
             <LoginUI
                 email={email}

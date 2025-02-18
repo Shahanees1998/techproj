@@ -37,7 +37,7 @@ const VerifyPage = () => {
   }, [router, verify]);
 
   return (
-    <div className={`${containerClassName} w-full max-w-4xl`}>
+    <div className={`${containerClassName || ''} w-full max-w-4xl`}>
 
       <ToastContainer />
       <div className="fixed top-0 left-0 right-0 bottom-0 inset-0 z-40 w-full h-full"

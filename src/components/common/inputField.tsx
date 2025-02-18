@@ -14,6 +14,7 @@ interface InputFieldProps {
     isMandatory?: boolean;
     iconPosition?: 'left' | 'right';
     icon?: React.ReactNode | string;
+    borderColor?: string;
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -28,20 +29,21 @@ const InputField: React.FC<InputFieldProps> = ({
     isMandatory = false,
     iconPosition,
     icon,
+    borderColor = '#6366F1',
 }) => {
     return (
         <div style={{ marginBottom: '1rem', ...style }}>
             {label &&
                 <label className="text-800 font-thin text-sm">{label} {isMandatory && <span className="text-red-500">*</span>}</label>}
             <IconField iconPosition={iconPosition}>
-                {icon && <InputIcon style={{marginTop: '-2px'}} className={`pi ${icon}`}></InputIcon>}
+                {icon && typeof icon === 'string' && <InputIcon style={{ marginTop: '-2px' }} className={`pi ${icon}`}></InputIcon>}
                 <InputText
                     type={type}
                     value={value}
                     onChange={onChange}
                     placeholder={placeholder}
                     className={`p-inputtext mt-2 w-full ${error ? 'p-invalid' : ''}`}
-                    style={{ borderRadius: '10px',padding: '0.85rem', borderColor: '#6366F1' }}
+                    style={{ borderRadius: '10px', padding: '0.85rem', borderColor: borderColor }}
                     disabled={disabled}
                 />
             </IconField>

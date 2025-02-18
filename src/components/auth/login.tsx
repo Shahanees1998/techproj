@@ -25,13 +25,14 @@ const LoginUI: React.FC<LoginUIProps> = ({ email, setEmail, isLoading = false, h
                     <div>
                         <InputField
                             value={email}
-                            onChange={(e) => setEmail?.(e.target.value)}
+                            onChange={(e) => setEmail && setEmail(e.target.value)}
                             label="Email"
                             placeholder="example@example.com"
                             disabled={isLoading}
                             isMandatory={true}
                             icon={'pi-envelope'}
                             iconPosition="right"
+                            borderColor={'#6366F1'}
                             error={!isEmailValid(email) ? 'Invalid email address' : undefined}
                         />
                         <CommonButton
