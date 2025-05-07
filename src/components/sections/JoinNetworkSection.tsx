@@ -16,7 +16,7 @@ const JoinNetworkSection = () => {
               <button type="button" className="btn-gradient hover:btn-gradient mt-5 mb-10 rounded-full text-white w-max-content px-10 py-3 family-poppins font-medium text-md">Book A Service</button>
             </div>
             <div className="w-full px-5 md:w-1/1 lg:w-6/12 mt-16">
-              <img className="hand-img" src="/images/hero/hand.svg" />
+              <img className="hand-img" src="/images/hero/hand.png" />
             </div>
           </div>
         </div>
@@ -38,7 +38,7 @@ const JoinNetworkSection = () => {
               <button type="button" className="btn-gradient mt-5 mb-10 rounded-full text-white w-full px-10 py-3 family-poppins font-medium text-md">Book A Service</button>
             </div>
             <div className="w-full md:w-1/1 lg:w-6/12 mt-16">
-              <img className="hand-img" src="/images/hero/hand.svg" />
+              <img className="hand-img" src="/images/hero/hand.png" style={{zIndex:"100000"}}/>
             </div>
           </div>
         </div>

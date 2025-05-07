@@ -9,7 +9,7 @@ const MobileTechShopSection = () => {
         <div className="container">
           <div className="-mx-4 flex flex-wrap">
             <div className="w-full px-5 md:w-1/1 lg:w-6/12 mt-16">
-              <img className="join-img" src="/images/hero/join-img.svg" />
+              <img className="join-img" src="/images/hero/join-img.png" />
             </div>
             <div className="w-full px-5 md:w-1/1 lg:w-6/12 mt-12">
               <span className="text-md top-bg-opt px-4 py-2 rounded-full w-max-content text-white family-poppins flex items-center"><img className="mr-3" src="/images/hero/track-icon.svg" /> Join the Techfleet Network</span>
@@ -47,7 +47,7 @@ const MobileTechShopSection = () => {
                </div>
             </div>
             <div className="w-full px-5 md:w-1/1 lg:w-6/12 mt-12">
-              <img className="join-img" src="/images/hero/join-img.svg" />
+              <img className="join-img" src="/images/hero/join-img.png" />
             </div>
           </div>
         </div>

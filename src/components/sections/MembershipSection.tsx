@@ -42,12 +42,12 @@ const MembershipSection = () => {
             TechFleet is bringing fast, reliable on-site tech care to cities across Canada. Find out if we&apos;re in your area!
           </p>
           <div className="-mx-4 flex flex-wrap">
-            {renderLocationCard('/images/hero/location1.svg', 'Mississauga, Ontario', '300 City Centre Drive, Mississauga, ON L5B 3C1')}
-            {renderLocationCard('/images/hero/location2.svg', 'Calgary, Alberta', '300 City Centre Drive, Mississauga, ON L5B 3C1')}
-            {renderLocationCard('/images/hero/location3.svg', 'Winnipeg, Manitoba', '300 City Centre Drive, Mississauga, ON L5B 3C1')}
-            {renderLocationCard('/images/hero/location4.svg', 'Vancouver, BC', '300 City Centre Drive, Mississauga, ON L5B 3C1')}
-            {renderLocationCard('/images/hero/location5.svg', 'Mississauga, Ontario', '300 City Centre Drive, Mississauga, ON L5B 3C1')}
-            {renderLocationCard('/images/hero/location6.svg', 'Calgary, Alberta', '300 City Centre Drive, Mississauga, ON L5B 3C1')}
+            {renderLocationCard('/images/hero/location1.png', 'Mississauga, Ontario', '300 City Centre Drive, Mississauga, ON L5B 3C1')}
+            {renderLocationCard('/images/hero/location2.png', 'Calgary, Alberta', '300 City Centre Drive, Mississauga, ON L5B 3C1')}
+            {renderLocationCard('/images/hero/location3.png', 'Winnipeg, Manitoba', '300 City Centre Drive, Mississauga, ON L5B 3C1')}
+            {renderLocationCard('/images/hero/location4.png', 'Vancouver, BC', '300 City Centre Drive, Mississauga, ON L5B 3C1')}
+            {renderLocationCard('/images/hero/location5.png', 'Mississauga, Ontario', '300 City Centre Drive, Mississauga, ON L5B 3C1')}
+            {renderLocationCard('/images/hero/location6.png', 'Calgary, Alberta', '300 City Centre Drive, Mississauga, ON L5B 3C1')}
           </div>
           <p className="text-white font-normal text-center text-md mt-12 family-poppins">
             We&apos;re rolling out new locations in cities nationwide. Let us know where you&apos;d like us to serve next, and help shape our expansion!

@@ -88,9 +88,10 @@ const Header = () => {
     <>
       <Topbar />
       <div
+        style={{zIndex:"100000 !important", backdropFilter:isScrolled ? "blur(20px)" : "blur(0px)"}}
         className={`
-          fixed left-0 w-full z-40 transition-all duration-300 ease-in-out
-          ${isScrolled ? 'top-0 bg-dark/90 backdrop-blur-xl shadow-lg' : 'top-10 bg-dark'}
+          fixed left-0 w-full z-10 transition-all duration-300 ease-in-out
+          ${isScrolled ? 'top-0 bg-dark/95 backdrop-blur-2xl shadow-lg' : 'top-10 bg-dark/95 backdrop-blur-2xl'}
           ${showHeader ? 'translate-y-0' : '-translate-y-full'}
           nav-bg
         `}

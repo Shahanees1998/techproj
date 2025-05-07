@@ -22,7 +22,7 @@ const ServiceProviderSection = () => {
         <div className="relative overflow-hidden">
           <img 
             className="w-full rounded-xl transform transition-transform duration-500 ease-in-out group-hover:scale-110" 
-            src="/images/hero/guide-img.svg" 
+            src="/images/hero/guide-img.png" 
             alt="Guide illustration"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100" />

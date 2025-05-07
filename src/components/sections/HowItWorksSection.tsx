@@ -28,7 +28,7 @@ const HowItWorksSection = () => {
             </div>
           </div>
            <div className="w-full px-5 md:w-1/1 lg:w-6/12 mt-12">
-            <img className="absolute right-0 w48 mt-12 sm-car" src="/images/hero/van.svg" />
+            <img className="absolute right-0 w48 mt-12 sm-car" src="/images/hero/van.png" />
           </div>
         </div>
       </div>
@@ -59,7 +59,7 @@ const HowItWorksSection = () => {
             </div>
           </div>
            <div className="w-full px-5 md:w-1/1 lg:w-6/12 mt-12">
-            <img className="absolute right-0 w48 mt-12 sm-car" src="/images/hero/van.svg" />
+            <img className="absolute right-0 w48 mt-12 sm-car" src="/images/hero/van.png" />
           </div>
         </div>
       </div>
