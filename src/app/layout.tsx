@@ -1,17 +1,16 @@
 'use client';
-import { LayoutProvider } from '../layout/context/layoutcontext';
-import { PrimeReactProvider } from 'primereact/api';
 
-import '../styles/layout/layout.scss';
-import '../styles/demo/Demos.scss';
+import '../styles/animate.css'
+import '../styles/tailwind.css'
 import '../app/globals.css';
+
 import 'primereact/resources/primereact.css';
 import 'primeflex/primeflex.css';
 import 'primeicons/primeicons.css';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import 'react-toastify/dist/ReactToastify.css';
-
-import { AuthProvider } from '@/contexts/AuthContext';
+import Header from '@/components/header';
+import Footer from '@/components/footer';
 
 interface RootLayoutProps {
     children: React.ReactNode;
@@ -19,16 +18,11 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: RootLayoutProps) {
     return (
-        <html lang="en" suppressHydrationWarning style={{ fontSize: '14px' }}>
-            <head>
-                {/* <link id="theme-css" href={`/themes/lara-light-indigo/theme.css`} rel="stylesheet"></link> */}
-            </head>
+        <html>
             <body>
-                <AuthProvider>
-                    <PrimeReactProvider>
-                        <LayoutProvider>{children}</LayoutProvider>
-                    </PrimeReactProvider>
-                </AuthProvider>
+                <Header />
+                {children}
+                <Footer />
             </body>
         </html>
     );
