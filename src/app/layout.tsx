@@ -2,7 +2,7 @@
 
 import '../styles/animate.css'
 import '../styles/tailwind.css'
-import '../app/globals.css';
+// import '../app/globals.css';
 
 import 'primereact/resources/primereact.css';
 import 'primeflex/primeflex.css';
