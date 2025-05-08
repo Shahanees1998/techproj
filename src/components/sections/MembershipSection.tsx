@@ -76,9 +76,9 @@ const MembershipSection = () => {
             TechFleet is bringing fast, reliable on-site tech care to cities across Canada. Find out if we&apos;re in your area!
           </p>
           <div className="flex overflow-scroll" style={{height: '328px'}}>
-            {renderLocationCard('/images/hero/location1.svg', 'Mississauga, Ontario', '300 City Centre Drive, Mississauga, ON L5B 3C1', true)}
-            {renderLocationCard('/images/hero/location2.svg', 'Calgary, Alberta', '300 City Centre Drive, Mississauga, ON L5B 3C1', true)}
-            {renderLocationCard('/images/hero/location3.svg', 'Winnipeg, Manitoba', '300 City Centre Drive, Mississauga, ON L5B 3C1', true)}
+            {renderLocationCard('/images/hero/location1.png', 'Mississauga, Ontario', '300 City Centre Drive, Mississauga, ON L5B 3C1', true)}
+            {renderLocationCard('/images/hero/location2.png', 'Calgary, Alberta', '300 City Centre Drive, Mississauga, ON L5B 3C1', true)}
+            {renderLocationCard('/images/hero/location3.png', 'Winnipeg, Manitoba', '300 City Centre Drive, Mississauga, ON L5B 3C1', true)}
           </div>
           <p className="text-white font-normal text-center text-md mt-12 family-poppins">
             We&apos;re rolling out new locations in cities nationwide. Let us know where you&apos;d like us to serve next, and help shape our expansion!

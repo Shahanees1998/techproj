@@ -7,26 +7,22 @@ const TrackTechnicianSection = () => {
     {
       question: "Can you help me recycle my old phone or other electronics?",
       answer: "Yes, we offer comprehensive electronics recycling services. We ensure your old devices are properly disposed of or refurbished in an environmentally friendly way.",
-      icon: "/images/logo/nav-down.svg",
-      activeIcon: "/images/logo/nav-up.svg"
+      icon: "/images/logo/nav-down.svg"
     },
     {
       question: "How long does a typical repair take?",
       answer: "Most repairs are completed within 1-2 hours. However, complex issues may take longer. We'll provide you with an accurate time estimate after diagnosis.",
-      icon: "/images/logo/nav-down.svg",
-      activeIcon: "/images/logo/nav-up.svg"
+      icon: "/images/logo/nav-down.svg"
     },
     {
       question: "Do you offer warranty on repairs?",
       answer: "Yes, we provide a 90-day warranty on all our repairs and parts. This covers any issues that might arise from the repair work.",
-      icon: "/images/logo/nav-down.svg",
-      activeIcon: "/images/logo/nav-up.svg"
+      icon: "/images/logo/nav-down.svg"
     },
     {
       question: "Can I track my repair status?",
       answer: "Yes, you can track your repair status in real-time through our online portal or mobile app. We'll also send you regular updates via email or SMS.",
-      icon: "/images/logo/nav-down.svg",
-      activeIcon: "/images/logo/nav-up.svg"
+      icon: "/images/logo/nav-down.svg"
     }
   ];
 
@@ -44,7 +40,7 @@ const TrackTechnicianSection = () => {
         >
           <p className="text-white text-md font-normal family-poppins">{item.question}</p>
           <img 
-            src={isActive ? item.activeIcon : item.icon} 
+            src={item.icon}
             alt={isActive ? "Collapse" : "Expand"}
             className={`transition-transform duration-300 ${isActive ? 'rotate-180' : ''}`}
           />

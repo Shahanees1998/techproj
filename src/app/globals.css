@@ -73,7 +73,7 @@ body {
 #home
 {
   width: 100% !important;
-  background-image: url('/images/hero/tech-banner.png') !important;
+  background-image: url('/images/hero/tech-banner.svg') !important;
   height: auto !important;
   background-repeat: no-repeat !important;
   background-size: cover !important;
@@ -3908,7 +3908,7 @@ body {
     font-size: 8px !important;
   }
   .h256 {
-    height: 256px !important;
+    height: 156px !important;
   }
   .column-border
   {

@@ -21,14 +21,14 @@ const ServiceProviderSection = () => {
       `}>
         <div className="relative overflow-hidden">
           <img 
-            className="w-full rounded-xl transform transition-transform duration-500 ease-in-out group-hover:scale-110" 
-            src="/images/hero/guide-img.png" 
+            className="w-full transform transition-transform duration-500 ease-in-out group-hover:scale-110" 
+            src="/images/hero/guide.png" 
             alt="Guide illustration"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100" />
         </div>
         <div className="px-5">
-          <div className="flex justify-evenly items-center">
+          <div className="flex justify-start gap-4 items-center">
             <div className="flex items-center mt-5 mr-3">
               <img 
                 className="mr-3 transform transition-transform duration-300 ease-in-out group-hover:scale-110" 
