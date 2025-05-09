@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 const ServiceProviderSection = () => {
   const [clickedCard, setClickedCard] = useState<number | null>(null);
-
+  const [selectedCategory, setSelectedCategory] = useState<string>('Photography');
   const handleCardClick = (index: number) => {
     setClickedCard(clickedCard === index ? null : index);
   };
@@ -61,9 +61,11 @@ const ServiceProviderSection = () => {
     <div className={`
       ${isActive ? 'bg-primary' : ''} 
       px-5 py-3 rounded-full mt-5 text-md family-poppins flex items-center
-      transform transition-all duration-300 ease-in-out
+      transform transition-all duration-300 ease-in-out cursor-pointer
       hover:scale-105 hover:shadow-lg
-    `}>
+    `}
+    onClick={() => setSelectedCategory(label)}
+    >
       <img 
         className="mr-3 transform transition-transform duration-300 ease-in-out hover:rotate-12" 
         src={icon} 
@@ -84,11 +86,11 @@ const ServiceProviderSection = () => {
           Explore our curated articles to learn about tech care, device repairs, and the latest industry trends.
         </p>
         <div className="flex justify-center items-center flex-wrap mb-5">
-          {renderCategoryTag('/images/hero/guide1.svg', 'Photography', true)}
-          {renderCategoryTag('/images/hero/guide2.svg', 'Tech Tips')}
-          {renderCategoryTag('/images/hero/guide3.svg', 'Gaming')}
-          {renderCategoryTag('/images/hero/guide4.svg', 'Mobile Devices')}
-          {renderCategoryTag('/images/hero/guide5.svg', 'Repairs')}
+          {renderCategoryTag('/images/hero/guide1.svg', 'Photography', selectedCategory === 'Photography')}
+          {renderCategoryTag('/images/hero/guide2.svg', 'Tech Tips', selectedCategory === 'Tech Tips')}
+          {renderCategoryTag('/images/hero/guide3.svg', 'Gaming', selectedCategory === 'Gaming')}
+          {renderCategoryTag('/images/hero/guide4.svg', 'Mobile Devices', selectedCategory === 'Mobile Devices')}
+          {renderCategoryTag('/images/hero/guide5.svg', 'Repairs', selectedCategory === 'Repairs')}
         </div>
         <div className="-mx-4 flex flex-wrap">
           {[0, 1, 2].map((index) => renderCard(index))}

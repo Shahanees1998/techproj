@@ -12,7 +12,12 @@ const MembershipSection = () => {
         hover:shadow-2xl hover:shadow-primary/20
       ">
         <img 
-          className={`${isMobile ? 'sm-first-slide' : 'w-full'} rounded-xl`} 
+          className={`
+            ${isMobile ? 'sm-first-slide' : 'w-full'} 
+            rounded-xl
+            transform transition-all duration-500 ease-in-out
+            group-hover:rotate-6
+          `}
           src={image} 
           alt={city}
         />
