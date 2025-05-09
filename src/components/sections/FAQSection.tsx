@@ -214,14 +214,14 @@ const FAQSection = () => {
   const renderFAQItem = (faq: { title: string; content: string }, index: number) => {
     const isActive = activeIndex === index;
     return (
-      <div key={index} className="mb-5">
+      <div key={index} className="mb-5 pb-2">
         <div 
           className="flex justify-between items-center cursor-pointer"
           onClick={() => toggleFAQ(index)}
         >
           <div className="flex items-center">
-            <img className="mr-3" src={isActive ? "/images/hero/right-arrow.svg" : "/images/hero/right-arrow-white.svg"} />
-            <h6 className={`text-lg family-poppins font-medium ${isActive ? 'text-gradient' : 'text-white'}`}>
+            <img className="mr-3 w-4" src={isActive ? "/images/hero/right-arrow.svg" : "/images/hero/right-arrow-white.svg"} />
+            <h6 className={`text-md family-poppins font-medium ${isActive ? 'text-gradient' : 'text-white'}`}>
               {faq.title}
             </h6>
           </div>
@@ -230,10 +230,12 @@ const FAQSection = () => {
           </a>
         </div>
         {isActive && (
-          <p className="text-light family-poppins text-sm border-b border-color pb-8 font-normal mt-4">
+          <p className="text-light family-poppins text-sm border-color pb-2 font-normal mt-4">
             {faq.content}
           </p>
         )}
+
+        <img src="/images/hero/stroke.png" className="w-full mt-4" />
       </div>
     );
   };

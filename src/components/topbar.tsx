@@ -8,7 +8,7 @@ const Topbar = () => {
             <span className="text-sm font-normal family-poppins text-green top-info">Personal</span>
             <span className="text-sm font-normal family-poppins text-white px-5">For Business</span>
           </div>
-          <div>
+          <div style={{width : '35%'}}>
             <span className="text-sm font-normal family-poppins text-white top-info">How It Works</span>
             <span className="text-sm font-normal family-poppins text-white top-info">Resources</span>
             <span className="text-sm font-normal family-poppins text-white top-info">Blog</span>

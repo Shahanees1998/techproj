@@ -127,9 +127,8 @@ const CompareDevicesSection = () => {
               <div className="mx-auto text-center">
                 <div className="flex justify-center items-center flex-wrap">
                   <h2 className="text-2xl font-medium mr-3 mb-3 text-white dark:text-white line_heading">
-                    Find Your Perfect Replacement <br />Device <span className="btn-gradient px-4 py-2 rounded-xl text-white font-medium family-poppins text-xs">1/6 STEPS</span>
+                    Find Your Perfect Replacement <br />Device <span className="btn-gradient ml-2 px-4 py-2 rounded-xl text-white font-medium family-poppins text-xs">1/6 STEPS</span>
                   </h2>
-
                 </div>
               </div>
             </div>
@@ -143,8 +142,8 @@ const CompareDevicesSection = () => {
             </div>
             <div className="w-full flex justify-between px-2">
               <div className="border w-max-content border-color mt-5 rounded-full px-3 py-2 flex items-center">
-                <img style={{ width: '120px' }} className="mr-3 sm-icon-width" src="/images/hero/device-icon2.svg" />
-                <h5 className="text-white text-xs font-medium family-poppins fs-8">Monthly Installments</h5>
+                <img style={{ width: '120px' }} className="mr-3 sm-icon-width" src="/images/hero/device-icon4.svg" />
+                <h5 className="text-white text-xs font-medium family-poppins fs-8">1 Year Warranty</h5>
               </div>
             </div>
           </div>
@@ -157,8 +156,8 @@ const CompareDevicesSection = () => {
             </div>
             <div className="w-full flex justify-between px-2">
               <div className="border w-max-content border-color mt-5 rounded-full px-3 py-2 flex items-center">
-                <img style={{ width: '120px' }} className="mr-3 sm-icon-width" src="/images/hero/device-icon4.svg" />
-                <h5 className="text-white text-xs font-medium family-poppins fs-8">1 Year Warranty</h5>
+                <img style={{ width: '120px' }} className="mr-3 sm-icon-width" src="/images/hero/device-icon2.svg" />
+                <h5 className="text-white text-xs font-medium family-poppins fs-8">Monthly Installments</h5>
               </div>
             </div>
           </div>
