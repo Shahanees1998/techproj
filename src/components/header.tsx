@@ -6,6 +6,7 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [showHeader, setShowHeader] = useState(true);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,8 +29,24 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [lastScrollY]);
 
+  // Disable scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMobileMenuOpen]);
+
   const toggleDropdown = (menu: string) => {
     setActiveDropdown(activeDropdown === menu ? null : menu);
+  };
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
   const renderDropdownMenu = (menu: string, items: { label: string; href: string }[]) => (
@@ -87,8 +104,6 @@ const Header = () => {
   return (
     <>
       <Topbar />
-
-    
       <div
         style={{zIndex:"100000 !important", backdropFilter:isScrolled ? "blur(20px)" : "blur(0px)"}}
         className={`
@@ -109,12 +124,150 @@ const Header = () => {
               <div className="">
                 <button
                   id="navbarToggler"
+                  onClick={toggleMobileMenu}
                   className="right-4 menumt top-1/2 block -translate-y-1/2 rounded-lg px-3 py-[6px] ring-primary focus:ring-2 lg:hidden"
                 >
                   <span className="relative my-[6px] block h-[2px] w-[30px] bg-white"></span>
                   <span className="relative my-[6px] block h-[2px] w-[30px] bg-white"></span>
                   <span className="relative my-[6px] block h-[2px] w-[30px] bg-white"></span>
                 </button>
+
+                {/* Mobile Menu Overlay */}
+                <div 
+                  className={`
+                    fixed inset-0 bg-dark/95 backdrop-blur-xl z-50
+                    transition-all duration-300 ease-in-out
+                    lg:hidden
+                    ${isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}
+                  `}
+                >
+                  <div className='mobile-menu-overlay'>
+                    {/* Close Button */}
+                    <button 
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="absolute top-6 right-6 text-white hover:text-primary transition-colors"
+                    >
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </button>
+
+                    {/* Mobile Menu Content */}
+                    <div className="h-full flex flex-col items-center pt-12">
+                      <nav className="w-full px-6">
+                        <ul className="space-y-8">
+                          <li className="group relative">
+                            <button
+                              onClick={() => toggleDropdown('services')}
+                              className="w-full text-left text-xl font-medium text-white hover:text-primary transition-colors"
+                            >
+                              Services
+                              <img
+                                className={`ml-2 inline-block transform transition-transform duration-300 ${activeDropdown === 'services' ? 'rotate-180' : ''}`}
+                                src="/images/logo/nav-down.svg"
+                                alt="dropdown"
+                              />
+                            </button>
+                            {activeDropdown === 'services' && (
+                              <div className="mt-4 space-y-4 pl-4">
+                                {menuItems.services.map((item, index) => (
+                                  <a
+                                    key={index}
+                                    href={item.href}
+                                    className="block text-lg text-white hover:text-primary transition-colors"
+                                  >
+                                    {item.label}
+                                  </a>
+                                ))}
+                              </div>
+                            )}
+                          </li>
+                          <li>
+                            <a href="#" className="block text-xl font-medium text-white hover:text-primary transition-colors">
+                              Shop
+                            </a>
+                          </li>
+                          <li className="group relative">
+                            <button
+                              onClick={() => toggleDropdown('sell')}
+                              className="w-full text-left text-xl font-medium text-white hover:text-primary transition-colors"
+                            >
+                              Sell
+                              <img
+                                className={`ml-2 inline-block transform transition-transform duration-300 ${activeDropdown === 'sell' ? 'rotate-180' : ''}`}
+                                src="/images/logo/nav-down.svg"
+                                alt="dropdown"
+                              />
+                            </button>
+                            {activeDropdown === 'sell' && (
+                              <div className="mt-4 space-y-4 pl-4">
+                                {menuItems.sell.map((item, index) => (
+                                  <a
+                                    key={index}
+                                    href={item.href}
+                                    className="block text-lg text-white hover:text-primary transition-colors"
+                                  >
+                                    {item.label}
+                                  </a>
+                                ))}
+                              </div>
+                            )}
+                          </li>
+                          <li>
+                            <a href="#" className="block text-xl font-medium text-white hover:text-primary transition-colors">
+                              Plans
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#" className="block text-xl font-medium text-white hover:text-primary transition-colors">
+                              Compare
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#" className="block text-xl font-medium text-white hover:text-primary transition-colors">
+                              Memberships
+                            </a>
+                          </li>
+                          <li className="group relative">
+                            <button
+                              onClick={() => toggleDropdown('support')}
+                              className="w-full text-left text-xl font-medium text-white hover:text-primary transition-colors"
+                            >
+                              Support
+                              <img
+                                className={`ml-2 inline-block transform transition-transform duration-300 ${activeDropdown === 'support' ? 'rotate-180' : ''}`}
+                                src="/images/logo/nav-down.svg"
+                                alt="dropdown"
+                              />
+                            </button>
+                            {activeDropdown === 'support' && (
+                              <div className="mt-4 space-y-4 pl-4">
+                                {menuItems.support.map((item, index) => (
+                                  <a
+                                    key={index}
+                                    href={item.href}
+                                    className="block text-lg text-white hover:text-primary transition-colors"
+                                  >
+                                    {item.label}
+                                  </a>
+                                ))}
+                              </div>
+                            )}
+                          </li>
+                        </ul>
+                      </nav>
+                      <div className="mt-8 px-6">
+                        <a
+                          href="signup.html"
+                          className="block w-full text-center rounded-full hover:btn-gradient family-poppins btn-gradient px-6 py-3 text-base font-semibold text-white duration-300 ease-in-out hover:bg-opacity-100 hover:text-dark"
+                        >
+                          Get Immediate Assistance
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 <nav
                   id="navbarCollapse"
                   className={`
@@ -207,6 +360,7 @@ const Header = () => {
                   src="/images/logo/logo.svg"
                   alt="logo"
                   className="header-logo"
+                  style={{width:"150px"}}
                 />
               </a>
 

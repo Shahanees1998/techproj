@@ -26,6 +26,14 @@
   background-position: center !important;
 }
 
+.mobile-menu-overlay
+{
+  position: relative;
+  backdrop-filter: blur(60px);
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.95) !important;
+}
+
 .h256
 {
   height: 256px;
