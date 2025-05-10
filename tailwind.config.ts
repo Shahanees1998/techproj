@@ -52,6 +52,9 @@ const config: Config = {
         "gray-2": "#F3F4F6",
         "gray-7": "#CED4DA",
       },
+      fontFamily: {
+        'dm-serif-display': ['"DM Serif Display"', 'serif'],
+      },
       boxShadow: {
         input: "0px 7px 20px rgba(0, 0, 0, 0.03)",
         form: "0px 1px 55px -11px rgba(0, 0, 0, 0.01)",

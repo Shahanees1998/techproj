@@ -17,35 +17,35 @@ const CompareDevicesSection = () => {
               </div>
             </div>
           </div>
-          <div className="-mx-4 flex flex-wrap items-center">
-            <div className="w-full px-4 flex justify-between md:w-1/2 lg:w-1/4">
-              <div className="border w-full border-color mt-12 rounded-full px-3 py-2 flex items-center">
-                <img className="mr-3" src="/images/hero/device-icon1.svg" />
+          <div className="-mx-4 flex flex-wrap justify-center items-center">
+            <div className="px-2 flex justify-between">
+              <div className="border border-color mt-4 rounded-full px-3 py-2 flex items-center">
+                <img className="mr-3" style={{width:'40px'}} src="/images/hero/device-icon1.svg" />
                 <h5 className="text-white text-xs font-medium family-poppins">Sanitized, tested, graded, certified</h5>
               </div>
             </div>
-            <div className="w-full px-4 flex justify-between md:w-1/2 lg:w-1/4">
-              <div className="border w-full border-color mt-12 rounded-full px-3 py-2 flex items-center">
-                <img className="mr-3" src="/images/hero/device-icon2.svg" />
+            <div className="px-2 flex justify-between">
+              <div className="border border-color mt-4 rounded-full px-3 py-2 flex items-center">
+                <img className="mr-3" style={{width:'40px'}} src="/images/hero/device-icon2.svg" />
                 <h5 className="text-white text-xs font-medium family-poppins">Monthly Installments</h5>
               </div>
             </div>
-            <div className="w-full px-4 flex justify-between md:w-1/2 lg:w-1/4">
-              <div className="border w-full border-color mt-12 rounded-full px-3 py-2 flex items-center">
-                <img className="mr-3" src="/images/hero/device-icon3.svg" />
+            <div className="px-2 flex justify-between">
+              <div className="border border-color mt-4 rounded-full px-3 py-2 flex items-center">
+                <img className="mr-3" style={{width:'40px'}} src="/images/hero/device-icon3.svg" />
                 <h5 className="text-white text-xs font-medium family-poppins">Complimentary Tech Support</h5>
               </div>
             </div>
-            <div className="w-full px-4 flex justify-between md:w-1/2 lg:w-1/4">
-              <div className="border w-full border-color mt-12 rounded-full px-3 py-2 flex items-center">
-                <img className="mr-3" src="/images/hero/device-icon4.svg" />
+            <div className="px-2 flex justify-between">
+              <div className="border border-color mt-4 rounded-full px-3 py-2 flex items-center">
+                <img className="mr-3" style={{width:'40px'}} src="/images/hero/device-icon4.svg" />
                 <h5 className="text-white text-xs font-medium family-poppins">1 Year Warranty</h5>
               </div>
             </div>
           </div>
           <div className="-mx-4 flex flex-wrap items-center">
             <div className="w-full px-4 flex justify-between md:w-1/1 lg:w-1/1">
-              <div className="border bg-primary w-full border-color mt-12 rounded-xl px-5 py-8">
+              <div className="border bg-primary w-full border-color mt-4 rounded-xl px-5 py-8">
                 <h4 className="family-poppins text-2xl text-white text-center">{`Is there any category you're looking for?`}</h4>
                 <div className="-mx-4 flex flex-wrap items-center">
                   <div className="w-full px-4 flex justify-center md:w-1/2 lg:w-1/4">

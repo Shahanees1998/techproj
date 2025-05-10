@@ -27,7 +27,7 @@ const WhyChooseUs = () => {
       borderClass: "blue-border-l"
     },
     {
-      icon: "/images/hero/section1-icon2.svg",
+      icon: "/images/hero/section1-icon4.svg",
       title: "Convenient Doorstep Service",
       description: "We come to you—no hassle, no delays.",
       borderClass: "green-border-l"
@@ -90,7 +90,7 @@ const WhyChooseUs = () => {
               >
                 <div style={{height: '200px'}} className={`card bg-secondary ${card.borderClass} px-5 py-10 rounded-xl relative z-10 cursor-pointer`}>
                   <div className="card-front">
-                    <img className="mb-3" src={card.icon} alt={card.title} />
+                    <img className="mb-3" style={{width:'28px'}} src={card.icon} alt={card.title} />
                     <h3 className="text-1xl family-poppins font-medium text-white line_heading relative z-40">
                       {card.title}
                     </h3>

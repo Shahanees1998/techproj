@@ -72,7 +72,7 @@ const TradeInSection = () => {
                 <img className="mt-12" src="/images/hero/btn1.svg" />
                 <img className="mt-5" src="/images/hero/btn2.svg" />
                 <img className="mt-5 mb-10" src="/images/hero/btn3.svg" />
-                <img className="mt-20 mb-5" src="/images/hero/exp.svg" />
+                <img className="mb-5 banner-image" style={{width: '160px'}} src="/images/hero/exp.svg" />
               </div>
             </div>
           </div>
