@@ -117,7 +117,7 @@ const CompareDevicesSection = () => {
             </div>
           </div>
         </div>
-        <img className="absolute right-0 bottom-0" src="/images/hero/blur.svg" />
+        <img style={{top:'400px'}} className="absolute right-0 bottom-0" src="/images/hero/blur.svg" />
       </section>
 
       <section className="pt-20 relative dark:bg-dark web-none">

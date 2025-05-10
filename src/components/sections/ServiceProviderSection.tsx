@@ -86,11 +86,11 @@ const ServiceProviderSection = () => {
           Explore our curated articles to learn about tech care, device repairs, and the latest industry trends.
         </p>
         <div className="flex justify-center items-center flex-wrap mb-5">
-          {renderCategoryTag('/images/hero/guide1.svg', 'Photography', selectedCategory === 'Photography')}
-          {renderCategoryTag('/images/hero/guide2.svg', 'Tech Tips', selectedCategory === 'Tech Tips')}
-          {renderCategoryTag('/images/hero/guide3.svg', 'Gaming', selectedCategory === 'Gaming')}
-          {renderCategoryTag('/images/hero/guide4.svg', 'Mobile Devices', selectedCategory === 'Mobile Devices')}
-          {renderCategoryTag('/images/hero/guide5.svg', 'Repairs', selectedCategory === 'Repairs')}
+          {renderCategoryTag(selectedCategory === 'Photography' ? '/images/hero/camera-active.png' : '/images/hero/camera-inactive.png', 'Photography', selectedCategory === 'Photography')}
+          {renderCategoryTag(selectedCategory === 'Tech Tips' ? '/images/hero/bulb-active.png' : '/images/hero/bulb-inactive.png', 'Tech Tips', selectedCategory === 'Tech Tips')}
+          {renderCategoryTag(selectedCategory === 'Gaming' ? '/images/hero/remote-plus-active.png' : '/images/hero/remote-plus-inactive.png', 'Gaming', selectedCategory === 'Gaming')}
+          {renderCategoryTag(selectedCategory === 'Mobile Devices' ? '/images/hero/remote-active.png' : '/images/hero/remote-inactive.png', 'Mobile Devices', selectedCategory === 'Mobile Devices')}
+          {renderCategoryTag(selectedCategory === 'Repairs' ? '/images/hero/skrew-active.png' : '/images/hero/skrew-inactive.png', 'Repairs', selectedCategory === 'Repairs')}
         </div>
         <div className="-mx-4 flex flex-wrap">
           {[0, 1, 2].map((index) => renderCard(index))}

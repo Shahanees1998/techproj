@@ -94,7 +94,7 @@ const WhyChooseUs = () => {
                     <h3 className="text-1xl family-poppins font-medium text-white line_heading relative z-40">
                       {card.title}
                     </h3>
-                    <p className="text-light text-md family-poppins">{card.description}</p>
+                    <p style={{width: '80%'}} className="text-light text-md family-poppins">{card.description}</p>
                   </div>
                   <div className="card-back">
                     <p className="text-white text-lg family-poppins">Click to learn more about our {card.title.toLowerCase()}</p>

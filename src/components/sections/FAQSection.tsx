@@ -240,12 +240,13 @@ const FAQSection = () => {
     );
   };
 
-  const renderSectionButton = (section: typeof deviceSections[0]) => {
+  const renderSectionButton = (section: typeof deviceSections[0], index: number) => {
     const isActive = activeSection === section.id;
+    const isFirstSection = index === 0;
     return (
       <div 
         key={section.id}
-        className={`flex mt-5 rounded-full items-center px-10 py-3 cursor-pointer ${isActive ? 'bg-primary' : ''}`}
+        className={`flex rounded-full items-center px-10 py-3 cursor-pointer ${isActive ? 'bg-primary' : ''} ${isFirstSection ? 'mt-0' : 'mt-5'}`}
         onClick={() => handleSectionClick(section.id)}
       >
         <img className="mr-3" src={section.icon} />
@@ -260,11 +261,11 @@ const FAQSection = () => {
 
   return (
     <>
-      <section className="py-5 dark:bg-dark sm-none">
+      <section className="py-5 dark:bg-dark sm-none mt-4">
         <div className="container">
           <div className="-mx-4 flex flex-wrap">
             <div className="w-full px-2 md:w-1/1 lg:w-3/12 mt-12">
-              {deviceSections.map(section => renderSectionButton(section))}
+              {deviceSections.map((section, index) => renderSectionButton(section, index))}
             </div>
             <div className="w-full px-4 md:w-1/2 lg:w-6/12 mt-12">
               {currentSection?.faqs.map((faq, index) => renderFAQItem(faq, index))}

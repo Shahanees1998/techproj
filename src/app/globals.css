@@ -97,6 +97,11 @@ body {
   padding-left: 100px !important;
   padding-right: 100px !important;
 }
+
+.top-left-right-radius {
+  border-top-left-radius: 20px !important;
+  border-top-right-radius: 20px !important;
+}
 .w-280
 {
   width: 280px !important;
@@ -3624,6 +3629,7 @@ body {
 }
 .hand-img
 {
+  top: -34px !important;
   position: absolute !important;
   right: 0 !important;
   bottom: 0 !important;
@@ -3719,6 +3725,7 @@ body {
   }
   .hand-img
   {
+    top: 0 !important;
     width: 100% !important;
     position: unset !important;
     max-width: 100% !important;

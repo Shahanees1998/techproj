@@ -71,7 +71,7 @@ const TrackTechnicianSection = () => {
         <div className="container">
           <div className="-mx-4 flex flex-wrap">
             <div className="w-full px-5 md:w-1/2 lg:w-1/2 mt-5">
-              <h2 className="text-white font-medium text-left text-5xl mb-5 mt-5">The 4 Questions People Always Ask</h2>
+              <h2 className="text-white font-medium text-left text-5xl mb-8 mt-5" style={{width : '80%'}}>The 4 Questions People Always Ask</h2>
               {questions.map((item, index) => renderQuestionItem(item, index))}
               {renderButtons()}
             </div>

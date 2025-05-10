@@ -49,10 +49,10 @@ const IssuesWeFixSection = () => {
   };
 
   const deviceTypes = [
-    { id: 'mobile', icon: '/images/hero/compare-icon1.svg', label: 'Mobiles' },
-    { id: 'laptop', icon: '/images/hero/compare-icon2.svg', label: 'Laptops' },
-    { id: 'tablet', icon: '/images/hero/compare-icon3.svg', label: 'Tablets' },
-    { id: 'tv', icon: '/images/hero/compare-icon4.svg', label: 'TV' }
+    { id: 'mobile', icon: '/images/hero/mobile-inactive.png', activeIcon: '/images/hero/mobile-active.png', label: 'Mobiles' },
+    { id: 'laptop', icon: '/images/hero/laptop-inactive.png', activeIcon: '/images/hero/laptop-active.png', label: 'Laptops' },
+    { id: 'tablet', icon: '/images/hero/tablet-inactive.png', activeIcon: '/images/hero/tablet-active.png', label: 'Tablets' },
+    { id: 'tv', icon: '/images/hero/tv-inactive.png', activeIcon: '/images/hero/tv-active.png', label: 'TV' }
   ];
 
   const toggleDropdown = (dropdown: DropdownType) => {
@@ -142,7 +142,7 @@ const IssuesWeFixSection = () => {
                     group-hover:scale-110 group-hover:rotate-6
                     filter group-hover:brightness-110
                   " 
-                  src={device.icon} 
+                  src={selectedDevice === device.id ? device.activeIcon : device.icon} 
                 />
                 <h6 className={`
                   font-normal text-md family-poppins text-center 
